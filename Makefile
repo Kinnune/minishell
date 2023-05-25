@@ -3,20 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.42.fr>              +#+  +:+       +#+         #
+#    By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/05/12 16:20:35 by djames           ###   ########.fr        #
+#    Updated: 2023/05/25 12:07:52 by ekinnune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c function.c exit.c ft_history.c pwd.c cd.c export.c copyenv.c
+SRC = main.c function.c exit.c ft_history.c pwd.c cd.c \
+		export.c copyenv.c redir.c tokensis.c paths.c
 
-OUT = main.o function.o exit.o ft_history.o pwd.o cd.o export.o copyenv.o
+OUT = $(SRC:.c=.o)
 
-FLAGS = -Wall -Werror -Wextra 
+FLAGS = #-Wall -Werror -Wextra 
 RL_L = -lreadline -L ~/.brew/opt/readline/lib
 RL_I = -I ~/.brew/opt/readline/include
 
