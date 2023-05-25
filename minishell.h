@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/05/25 12:08:46 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:35:07 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,6 @@ int		run_command(char *command, char **args);
 //redir.c
 int			redirect_out(int append, char *filename);
 int			redirect_in(int delimiter, char *filename);
-
-typedef struct s_command
-{
-	char	*arg;
-	char	**argv;
-	int		argc;
-	char	*output;
-	struct s_command *next;
-}	t_command;
-//lst.c
-int			lst_size(t_command *list);
-void		lst_print_args(t_command *list);
-void		lst_free(t_command *list);
-t_command	*build_commands(char *input);
 
 //tokensis.c
 t_token	*tokenizer(const char *input);

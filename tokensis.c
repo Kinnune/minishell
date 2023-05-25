@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/25 12:09:16 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:15:13 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ accepted states
 	quotes -> matching quote
 	pipe -> something on left side
 			if right side missing prompt for compeletion
-	program name -> ends in " " or other recognized token
+	program name -> ends in ' ' or other recognized token
 	redirections -> require only right field, the filename
 	$ -> ?, valid name of variable
 */
@@ -32,7 +32,7 @@ t_token	*tokenizer(const char *input)
 	head = NULL;
 	while (*input)
 	{
-		while (*input == " ")
+		while (*input == ' ')
 			input++;
 		if (special_symbol(*input))
 			node = handle_special_symbol(input);
@@ -131,7 +131,7 @@ t_token	*is_var(const char *input)
 	size = 0;
 	//while character is valid name character
 	//to-do: quotes and expansions
-	while (*(input + size) != '=' && *(input + size) != " " && *(input + size))
+	while (*(input + size) != '=' && *(input + size) != ' ' && *(input + size))
 		size++;
 	return (make_token(input, size, ENVAR));
 }
@@ -198,7 +198,7 @@ int		special_symbol(char input)
 {
 	return (input == '>' | input == '<' | input == '$'
 		| input == '|' | input == '\''  | input == '"'
-		| input == " " | input == '\t' | input == '\0');
+		| input == ' ' | input == '\t' | input == '\0');
 }
 
 void	print_tokens(t_token *token)
