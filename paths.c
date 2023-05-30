@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/25 15:21:00 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:49:20 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,73 @@ int count_dot_dot(char *str)
 	return (i);
 }
 
+char	*dot_slash_remove(char *path)
+{
+	int i;
+	char *test;
+
+
+	test = ft_strnstr(path, "/./", ft_strlen(path));
+	if (test && !ft_strnstr(test, "/../", 4))
+	{
+		ft_memmove(test, test + 2, ft_strlen(test + 2) + 1);
+printf("path = %s\n", path);
+		return (dot_slash_remove(path));
+	}
+	test = ft_strnstr(path, "/../", ft_strlen(path));
+	if (test)
+	{
+		if (test == path)
+			ft_memmove(test, test + 3, ft_strlen(test + 3) + 1);
+		else
+		{
+			i = 1;
+			while (test - i != path && *(test - i) != '/')
+			{
+				i++;
+			}
+			ft_memmove(test - i, test + 3, ft_strlen(test + 3) + 1);
+		}
+		// else
+		// 	ft_memmove(test, test + 3, ft_strlen(test + 2) + 1);
+printf("path = %s\n", path);
+		return (dot_slash_remove(path));
+	}
+printf("path = %s\n", path);
+	return (path);
+}
+
 int	run_command(char *command, char **args)
 {
 	extern char	**environ;
 	char **path_split;
-	char path[PATH_MAX];
+	char path[PATH_MAX * 2];
 	char *path_ptr;
 	char *temp_ptr;
 	char *error_msg;
 	int i;
 
+		printf("[%s][%s]\n", path, command);
+	if (!command)
+		return (-1);
 	if (*command != '/')
 	{
 		path_ptr = &path[0];
+		*path_ptr = 0;
 		//not sure if its ok to trust environ or should use getcwd
-		ft_memcpy(path_ptr, (*(environ + 8)) + 4, ft_strlen((*(environ + 8)) + 4) + 1);
-		printf("[%s]\n", path_ptr);
+		getcwd(path_ptr, PATH_MAX);
+		ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
+		ft_memcpy(path_ptr + ft_strlen(path_ptr), command, ft_strlen(command) + 1);
+		// ft_memcpy(path_ptr, (*(environ + 8)) + 4, ft_strlen((*(environ + 8)) + 4) + 1);
+		// temp_ptr = ft_strjoin(path_ptr, command);
+		printf("[%s]\n", dot_slash_remove(path_ptr));
+return (0);
+		// printf("[%s]\n", path_ptr);
 		if (ft_strchr(command, '/'))
 		{
 			// ../ can be mixed in the middle of stuff so properly build the path
 			// and none of this bs that happens here that relies on it being in the start
+			// dot_slash_remove(, command);
 			if (*command == '.' && *(command + 1) == '/')
 				ft_memcpy(path_ptr + ft_strlen(path_ptr), command + 1, ft_strlen(command));
 			else if (count_dot_dot(command))

@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/25 14:33:55 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:57:40 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ int main(void)
 	while (1)	
 	{
 		input = readline(">");
-		printf("[%s]\n", input);
+		// printf("[%s]\n", input);
 		// list = build_commands(input);
 		token = tokenizer(input);
-		run_command(token->str, args);
-		print_tokens(token);
-		free_tokens(token);
+		if (token)
+		{
+			run_command(token->str, args);
+			print_tokens(token);
+			free_tokens(token);
+		}
 		// printf("[%d]\n", lst_size(list));
 		// lst_print_args(list);
 		// lst_free(list);

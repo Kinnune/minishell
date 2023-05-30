@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/05/25 12:35:07 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/05/26 15:37:54 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,10 @@ typedef struct s_token
 	struct s_token *next;
 }	t_token;
 
-//error.c
-void	print_error(int error_nbr, char *error_str);
 
 //paths.c
 void	print_environ(void);
+char	*dot_slash_remove(char *path);
 int		run_command(char *command, char **args);
 
 //redir.c
