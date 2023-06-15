@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/05/26 15:37:54 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:08:42 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ int ft_length_word(char **envp);
 //------
 typedef enum
 {
-	PROG,
-	ARGS,
+	NAME,
 	DQUOTE,
 	SQUOTE,
 	RDIRIN,
@@ -80,6 +79,12 @@ typedef struct s_token
 	struct s_token *next;
 }	t_token;
 
+typedef struct	s_command
+{
+	char **cmd;
+	char **redir;
+	struct s_command *next;
+}	t_command;
 
 //paths.c
 void	print_environ(void);

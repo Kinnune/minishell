@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/29 17:49:20 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:29:55 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,13 @@ int	run_command(char *command, char **args)
 	{
 		path_ptr = &path[0];
 		*path_ptr = 0;
-		//not sure if its ok to trust environ or should use getcwd
 		getcwd(path_ptr, PATH_MAX);
 		ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
 		ft_memcpy(path_ptr + ft_strlen(path_ptr), command, ft_strlen(command) + 1);
-		// ft_memcpy(path_ptr, (*(environ + 8)) + 4, ft_strlen((*(environ + 8)) + 4) + 1);
-		// temp_ptr = ft_strjoin(path_ptr, command);
 		printf("[%s]\n", dot_slash_remove(path_ptr));
 return (0);
-		// printf("[%s]\n", path_ptr);
 		if (ft_strchr(command, '/'))
 		{
-			// ../ can be mixed in the middle of stuff so properly build the path
-			// and none of this bs that happens here that relies on it being in the start
-			// dot_slash_remove(, command);
 			if (*command == '.' && *(command + 1) == '/')
 				ft_memcpy(path_ptr + ft_strlen(path_ptr), command + 1, ft_strlen(command));
 			else if (count_dot_dot(command))
@@ -139,7 +132,6 @@ return (0);
 		}
 		else //this command needs to be found matched to environ [13]
 		{
-			//not sure if its ok to trust environ or should use getcwd
 			path_split = ft_split((*(environ + 13) + 5), ':');
 			if (!path_split)
 				return (-1);
@@ -178,3 +170,10 @@ return (0);
 		command_errors(path_ptr, "No such file or directory");
 	return (i);
 }
+		//not sure if its ok to trust environ or should use getcwd
+		// ft_memcpy(path_ptr, (*(environ + 8)) + 4, ft_strlen((*(environ + 8)) + 4) + 1);
+		// temp_ptr = ft_strjoin(path_ptr, command);
+		// printf("[%s]\n", path_ptr);
+			// ../ can be mixed in the middle of stuff so properly build the path
+			// and none of this bs that happens here that relies on it being in the start
+			// dot_slash_remove(, command);

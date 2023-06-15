@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/25 12:15:13 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:02:58 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ accepted states
 	redirections -> require only right field, the filename
 	$ -> ?, valid name of variable
 */
+
+// always interpret meta sequences / operators
+
+// building the tree
+// commands that have ** arguments and redirections
+// commands are separated by pipes
 
 t_token	*tokenizer(const char *input)
 {
@@ -78,7 +84,7 @@ t_token	*is_progname(const char *input)
 	{
 		size++;
 	}
-	return (make_token(input, size, PROG));
+	return (make_token(input, size, NAME));
 }
 
 t_token	*is_redir(const char *input)
@@ -205,7 +211,7 @@ void	print_tokens(t_token *token)
 {
 	while (token)
 	{
-		printf("%lu %s, %d, %s\n", token->size, token->str, token->type, token->pos);
+		printf("{%lu %s, %d, %s}\n", token->size, token->str, token->type, token->pos);
 		token = token->next;
 	}
 }
