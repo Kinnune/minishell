@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/15 18:47:20 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:21:14 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int count_redirs(t_token *token)
 	return (i);
 }
 
+//echo test0 > test test1 test2
+//in test it puts test0 test1 test2
+//so carefull about the handling its not correct atm
 t_command	*convert_tokens(t_token *token)
 {
 	int i;
