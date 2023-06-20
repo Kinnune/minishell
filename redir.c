@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/15 10:35:00 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:57:33 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,29 @@ int	redirect_in(int delimiter, char *filename)
 		return (fd);
 	dup2(fd, 0);
 	return (0);
+}
+
+void here_doc(char *key)
+{
+	char *line;
+	char *total;
+	char *temp;
+
+	temp = NULL;
+	total = NULL;
+	line = readline("<<");
+	while (ft_strncmp(line, key, ft_strlen(key)))
+	{
+		temp = total;
+		total = ft_calloc(ft_strlen(total) + ft_strlen(line) + 2, sizeof(char));
+		ft_strlcpy(total, temp, ft_strlen(temp) + 1);
+		ft_strlcpy((total + ft_strlen(total)), line, ft_strlen(line) + ft_strlen(total) + 1);
+		*(total + ft_strlen(total)) = '\n';
+		free(temp);
+		free(line);
+		line = readline("<<");
+	}
+	printf("[%s]",total);
+	free(line);
+	free(total);
 }

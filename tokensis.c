@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/15 18:02:58 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:24:27 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,46 @@ accepted states
 // building the tree
 // commands that have ** arguments and redirections
 // commands are separated by pipes
+
+int count_quotes(char *input)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (*input)
+	{
+		if (*input == '\'' && !(j % 2))
+			i++;
+		if (*input == '\"' && !(i % 2))
+			j++;
+		input++;
+	}
+	return (i % 2 + j % 2);
+}
+
+int check_tokens(t_token *token)
+{
+	int i;
+
+	if (!token)
+		return (0);
+	while (token)
+	{
+		if (token->type == PIPE)
+		{
+			if (!token->prev || !token->next)
+				return (-1);
+		}
+		if (token_type_redir(token))
+		{
+			if (!token_type_command(token->next))
+				return (-1);
+		}
+	}
+	return (0);
+}
 
 t_token	*tokenizer(const char *input)
 {
@@ -52,6 +92,7 @@ t_token	*tokenizer(const char *input)
 		input += node->size;
 		append_token(&head, node);
 	}
+	head->prev = NULL;
 	return (head);
 }
 
@@ -178,6 +219,7 @@ void	append_token(t_token **list_ptr, t_token *node)
 	while (list->next)
 		list = list->next;
 	list->next = node;
+	node->prev = list;
 	list = start;
 }
 
@@ -224,17 +266,3 @@ void	free_tokens(t_token *list)
 	free(list->str);
 	free(list);
 }
-
-// void	free_tokens(t_token *list)
-// {
-// 	t_token *temp;
-
-// 	while (list)
-// 	{
-// 		temp = list->next;
-// 		if (list->str)
-// 			free(list->str);
-// 		free(list);
-// 		list = temp;
-// 	}
-// }

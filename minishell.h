@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/06/15 18:08:42 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:28:50 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_token
 	size_t size;
 	e_type type;
 	struct s_token *next;
+	struct s_token *prev;
 }	t_token;
 
 typedef struct	s_command
@@ -85,6 +86,10 @@ typedef struct	s_command
 	char **redir;
 	struct s_command *next;
 }	t_command;
+
+
+int count_quotes(char *input);
+void here_doc(char *key);
 
 //paths.c
 void	print_environ(void);
@@ -109,6 +114,19 @@ int	special_symbol(char input);
 t_token	*make_token(const char *pos, size_t size, e_type type);
 void print_tokens(t_token *token);
 void	free_tokens(t_token *list);
+
+//commands.c
+int token_type_command(t_token *token);
+t_token *skip_i_token(t_token *token, int i);
+int count_name(t_token *token);
+int token_type_redir(t_token *token);
+int count_redir(t_token *token);
+int set_redir(t_command *command, t_token *token);
+int set_name(t_command *command, t_token *token);
+t_token *find_redir(t_token *token);
+t_token	*skip_pipe(t_token *token);
+t_command	*convert_tokens(t_token *token);
+void print_commands(t_command *command);
 
 //------
 #endif
