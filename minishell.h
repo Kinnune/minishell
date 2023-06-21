@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/06/20 16:28:50 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:33:35 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ typedef struct	s_command
 	struct s_command *next;
 }	t_command;
 
-
 int count_quotes(char *input);
+int check_tokens(t_token *token);
 void here_doc(char *key);
+int	syntax_error(void);
 
 //paths.c
 void	print_environ(void);

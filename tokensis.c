@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/20 14:24:27 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:42:42 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ accepted states
 // commands that have ** arguments and redirections
 // commands are separated by pipes
 
+int	syntax_error(void)
+{
+	write(2, "minishell: syntax error\n", 24);
+	return (-1);
+}
+
 int count_quotes(char *input)
 {
 	int i;
@@ -43,7 +49,9 @@ int count_quotes(char *input)
 			j++;
 		input++;
 	}
-	return (i % 2 + j % 2);
+	if (i % 2 + j % 2)
+		return (syntax_error());
+	return (0);
 }
 
 int check_tokens(t_token *token)
@@ -57,13 +65,14 @@ int check_tokens(t_token *token)
 		if (token->type == PIPE)
 		{
 			if (!token->prev || !token->next)
-				return (-1);
+				return (syntax_error());
 		}
 		if (token_type_redir(token))
 		{
 			if (!token_type_command(token->next))
-				return (-1);
+				return (syntax_error());
 		}
+		token = token->next;
 	}
 	return (0);
 }
@@ -75,11 +84,15 @@ t_token	*tokenizer(const char *input)
 
 	if (!input)
 		return (NULL);
+	else if (!*input)
+		return (NULL);
 	head = NULL;
 	while (*input)
 	{
 		while (*input == ' ')
 			input++;
+		if (!*input)
+			break ;
 		if (special_symbol(*input))
 			node = handle_special_symbol(input);
 		else
@@ -92,7 +105,8 @@ t_token	*tokenizer(const char *input)
 		input += node->size;
 		append_token(&head, node);
 	}
-	head->prev = NULL;
+	if (head)
+		head->prev = NULL;
 	return (head);
 }
 
@@ -122,9 +136,7 @@ t_token	*is_progname(const char *input)
 
 	size = 0;
 	while (!special_symbol(*(input + size)))
-	{
 		size++;
-	}
 	return (make_token(input, size, NAME));
 }
 

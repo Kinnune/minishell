@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/20 16:09:57 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:28:49 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,23 @@
 
 int token_type_command(t_token *token)
 {
+	if (!token)
+		return (0);
 	return (token->type == NAME |
 				token->type == DQUOTE |
 				token->type == SQUOTE |
 				token->type == ENVAR |
 				token->type == EXVAR);
+}
+
+int token_type_redir(t_token *token)
+{
+	if (!token)
+		return (0);
+	return (token->type == RDIRIN |
+				token->type == RDIROUT |
+				token->type == RDIRAPP |
+				token->type == RDIRDEL);
 }
 
 t_token *skip_i_token(t_token *token, int i)
@@ -36,19 +48,11 @@ int count_name(t_token *token)
 	{
 		return (1 + count_name(token->next));
 	}
-	else if (token_type_redir(token))
+	else if (token_type_redir(token) && token->next)
 	{
-		return (count_name(skip_i_token(token, count_redir(token))));
+		return (count_name(token->next->next));
 	}
 	return (0);
-}
-
-int token_type_redir(t_token *token)
-{
-	return (token->type == RDIRIN |
-				token->type == RDIROUT |
-				token->type == RDIRAPP |
-				token->type == RDIRDEL);
 }
 
 int count_redir(t_token *token)
@@ -60,14 +64,13 @@ int count_redir(t_token *token)
 		if (token->next)
 		{
 			if (token_type_command(token->next))
-				return (2 + count_redir(token->next->next));			
+				return (2 + count_redir(find_redir(token->next->next)));
 		}
 		else
 			return (0);
 	}
 	return (0);
 }
-
 
 int set_redir(t_command *command, t_token *token)
 {
@@ -82,7 +85,7 @@ int set_redir(t_command *command, t_token *token)
 			*(command->redir) = token->str;
 			*(command->redir + 1) = token->next->str;
 			command->redir += 2;
-			return (2 + set_redir(command, token->next->next));
+			return (2 + set_redir(command, find_redir(token->next->next)));
 		}
 		else //raise error, possibly exit
 		{
@@ -102,8 +105,8 @@ int set_name(t_command *command, t_token *token)
 		command->cmd += 1;
 		return (1 + set_name(command, token->next));
 	}
-	else if (token_type_redir(token))
-		return (set_name(command, skip_i_token(token, count_redir(token))));
+	else if (token_type_redir(token) && token->next)
+		return (set_name(command, token->next->next));
 	return (0);
 }
 
@@ -130,6 +133,8 @@ t_token	*skip_pipe(t_token *token)
 	return (token);
 }
 
+
+//separated redirections get lost
 t_command	*convert_tokens(t_token *token)
 {
 	int i;
@@ -143,13 +148,15 @@ t_command	*convert_tokens(t_token *token)
 		return (NULL);
 	test_token = find_redir(token);
 	i = count_redir(test_token);
-	command->redir = malloc((sizeof(char *) * (i + 1)));
-	*(command->redir + i) = NULL;
+	command->redir = ft_calloc(i + 1, sizeof(char *));
+	if (!command->redir)
+		;//handle malloc error
 	i = set_redir(command, test_token);
 	command->redir -= i;
 	i = count_name(token);
-	command->cmd = malloc((sizeof(char *) * (i + 1)));
-	*(command->cmd + i) = NULL; 
+	command->cmd = ft_calloc(i + 1, sizeof(char *));
+	if (!command->cmd)
+		;//handle malloc error
 	i = set_name(command, token);
 	command->cmd -= i;
 	command->next = convert_tokens(skip_pipe(token));

@@ -6,14 +6,11 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/20 16:57:33 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:54:17 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//just a rough draft for now,
-//everyting is subject to change
 
 int	redirect_out(int append, char *filename)
 {
@@ -30,8 +27,6 @@ int	redirect_out(int append, char *filename)
 	}
 	return (dup2(fd, 1));
 }
-
-// << not done
 
 int	redirect_in(int delimiter, char *filename)
 {
@@ -54,7 +49,7 @@ void here_doc(char *key)
 
 	temp = NULL;
 	total = NULL;
-	line = readline("<<");
+	line = readline("<");
 	while (ft_strncmp(line, key, ft_strlen(key)))
 	{
 		temp = total;
@@ -64,7 +59,7 @@ void here_doc(char *key)
 		*(total + ft_strlen(total)) = '\n';
 		free(temp);
 		free(line);
-		line = readline("<<");
+		line = readline("<");
 	}
 	printf("[%s]",total);
 	free(line);
