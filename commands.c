@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/21 15:28:49 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:55:14 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,6 @@ t_token	*skip_pipe(t_token *token)
 	return (token);
 }
 
-
-//separated redirections get lost
 t_command	*convert_tokens(t_token *token)
 {
 	int i;

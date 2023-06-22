@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/06/21 15:33:35 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:47:53 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	syntax_error(void);
 //paths.c
 void	print_environ(void);
 char	*dot_slash_remove(char *path);
-int		run_command(char *command, char **args);
+char	*get_path(char *command);
 
 //redir.c
 int			redirect_out(int append, char *filename);
