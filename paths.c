@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/22 12:55:14 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:43:59 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,33 +99,17 @@ char *get_path(char *command)
 	{
 		path_ptr = &path[0];
 		*path_ptr = 0;
-		getcwd(path_ptr, PATH_MAX);
-		ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
-		ft_memcpy(path_ptr + ft_strlen(path_ptr), command, ft_strlen(command) + 1);
-		if (ft_strchr(command, '/'))
+		if (ft_strchr(command, '/')) //relative path
 		{
-			if (*command == '.' && *(command + 1) == '/')
-				ft_memcpy(path_ptr + ft_strlen(path_ptr), command + 1, ft_strlen(command));
-			else if (count_dot_dot(command))
-			{
-				i = count_dot_dot(command);
-				while (i > 1)
-				{
-					temp_ptr = ft_strrchr(path_ptr, '/');
-					*temp_ptr = '\0';
-					i--;
-				}
-				ft_memcpy(ft_strrchr(path, '/') + 1, command + (count_dot_dot(command) * 3), ft_strlen(command + (count_dot_dot(command) * 3)) + 1);
-			}
-			else
-			{
-				ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
-				ft_memcpy(path_ptr + ft_strlen(path_ptr), command, ft_strlen(command) + 1);
-			}
+			getcwd(path_ptr, PATH_MAX);
+			ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
+			ft_memcpy(path_ptr + ft_strlen(path_ptr), command, ft_strlen(command) + 1);
 		}
 		else //this command needs to be found matched to environ [13]
 		{
-			path_split = ft_split((*(environ + 13) + 5), ':');
+			// this environ index was 13 before and apparently working???
+			// if it changed that is scary
+			path_split = ft_split((*(environ + 11) + 5), ':');
 			if (!path_split)
 				return (NULL);
 			i = 0;
@@ -137,17 +121,19 @@ char *get_path(char *command)
 				if (!access(path_ptr, F_OK))
 					break ;
 				i++;
-				// printf("[%s]{%d}\n", path_ptr, access(path_ptr, F_OK));
 			}
+			if (!*(path_split + i))
+				path_ptr = NULL;
 			i = 0;
 			while (*(path_split + i))
 			{
 				free(*(path_split + i));
 				i++;
 			}
+			free(path_split);
 		}
 	}
-	else //this is an absolute path
+	else //absolute path
 	{
 		path_ptr = command;
 	}
@@ -155,6 +141,7 @@ char *get_path(char *command)
 	dot_slash_remove(path_ptr);
 	return (path_ptr);
 }
+
 	// if (!access(path_ptr, F_OK))
 	// {
 	// 	if (access(path_ptr, X_OK))
