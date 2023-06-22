@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/07 15:29:55 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:55:14 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int count_dot_dot(char *str)
 	{
 		str += 3;
 		i++;
-		printf("i[%d]\n", i);
 	}
 	return (i);
 }
@@ -61,7 +60,6 @@ char	*dot_slash_remove(char *path)
 	if (test && !ft_strnstr(test, "/../", 4))
 	{
 		ft_memmove(test, test + 2, ft_strlen(test + 2) + 1);
-printf("path = %s\n", path);
 		return (dot_slash_remove(path));
 	}
 	test = ft_strnstr(path, "/../", ft_strlen(path));
@@ -80,14 +78,12 @@ printf("path = %s\n", path);
 		}
 		// else
 		// 	ft_memmove(test, test + 3, ft_strlen(test + 2) + 1);
-printf("path = %s\n", path);
 		return (dot_slash_remove(path));
 	}
-printf("path = %s\n", path);
 	return (path);
 }
 
-int	run_command(char *command, char **args)
+char *get_path(char *command)
 {
 	extern char	**environ;
 	char **path_split;
@@ -97,9 +93,8 @@ int	run_command(char *command, char **args)
 	char *error_msg;
 	int i;
 
-		printf("[%s][%s]\n", path, command);
 	if (!command)
-		return (-1);
+		return (NULL);
 	if (*command != '/')
 	{
 		path_ptr = &path[0];
@@ -107,8 +102,6 @@ int	run_command(char *command, char **args)
 		getcwd(path_ptr, PATH_MAX);
 		ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
 		ft_memcpy(path_ptr + ft_strlen(path_ptr), command, ft_strlen(command) + 1);
-		printf("[%s]\n", dot_slash_remove(path_ptr));
-return (0);
 		if (ft_strchr(command, '/'))
 		{
 			if (*command == '.' && *(command + 1) == '/')
@@ -134,7 +127,7 @@ return (0);
 		{
 			path_split = ft_split((*(environ + 13) + 5), ':');
 			if (!path_split)
-				return (-1);
+				return (NULL);
 			i = 0;
 			while (*(path_split + i))
 			{
@@ -159,17 +152,16 @@ return (0);
 		path_ptr = command;
 	}
 	path_split = NULL;
-	printf("running command: (%s)\n", path_ptr);
-	i = execve(path_ptr, args, environ);
-	if (!access(path_ptr, F_OK))
-	{
-		if (access(path_ptr, X_OK))
-			command_errors(path_ptr, "Permission denied");
-	}
-	else
-		command_errors(path_ptr, "No such file or directory");
-	return (i);
+	dot_slash_remove(path_ptr);
+	return (path_ptr);
 }
+	// if (!access(path_ptr, F_OK))
+	// {
+	// 	if (access(path_ptr, X_OK))
+	// 		command_errors(path_ptr, "Permission denied");
+	// }
+	// else
+	// 	command_errors(path_ptr, "No such file or directory");
 		//not sure if its ok to trust environ or should use getcwd
 		// ft_memcpy(path_ptr, (*(environ + 8)) + 4, ft_strlen((*(environ + 8)) + 4) + 1);
 		// temp_ptr = ft_strjoin(path_ptr, command);
