@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/05/25 12:08:46 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:33:35 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ int ft_length_word(char **envp);
 //------
 typedef enum
 {
-	PROG,
-	ARGS,
+	NAME,
 	DQUOTE,
 	SQUOTE,
 	RDIRIN,
@@ -78,32 +77,29 @@ typedef struct s_token
 	size_t size;
 	e_type type;
 	struct s_token *next;
+	struct s_token *prev;
 }	t_token;
 
-//error.c
-void	print_error(int error_nbr, char *error_str);
+typedef struct	s_command
+{
+	char **cmd;
+	char **redir;
+	struct s_command *next;
+}	t_command;
+
+int count_quotes(char *input);
+int check_tokens(t_token *token);
+void here_doc(char *key);
+int	syntax_error(void);
 
 //paths.c
 void	print_environ(void);
+char	*dot_slash_remove(char *path);
 int		run_command(char *command, char **args);
 
 //redir.c
 int			redirect_out(int append, char *filename);
 int			redirect_in(int delimiter, char *filename);
-
-typedef struct s_command
-{
-	char	*arg;
-	char	**argv;
-	int		argc;
-	char	*output;
-	struct s_command *next;
-}	t_command;
-//lst.c
-int			lst_size(t_command *list);
-void		lst_print_args(t_command *list);
-void		lst_free(t_command *list);
-t_command	*build_commands(char *input);
 
 //tokensis.c
 t_token	*tokenizer(const char *input);
@@ -119,6 +115,19 @@ int	special_symbol(char input);
 t_token	*make_token(const char *pos, size_t size, e_type type);
 void print_tokens(t_token *token);
 void	free_tokens(t_token *list);
+
+//commands.c
+int token_type_command(t_token *token);
+t_token *skip_i_token(t_token *token, int i);
+int count_name(t_token *token);
+int token_type_redir(t_token *token);
+int count_redir(t_token *token);
+int set_redir(t_command *command, t_token *token);
+int set_name(t_command *command, t_token *token);
+t_token *find_redir(t_token *token);
+t_token	*skip_pipe(t_token *token);
+t_command	*convert_tokens(t_token *token);
+void print_commands(t_command *command);
 
 //------
 #endif

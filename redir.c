@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/15 10:35:00 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:54:17 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//just a rough draft for now,
-//everyting is subject to change
 
 int	redirect_out(int append, char *filename)
 {
@@ -31,8 +28,6 @@ int	redirect_out(int append, char *filename)
 	return (dup2(fd, 1));
 }
 
-// << not done
-
 int	redirect_in(int delimiter, char *filename)
 {
 	struct stat file_stat;
@@ -44,4 +39,29 @@ int	redirect_in(int delimiter, char *filename)
 		return (fd);
 	dup2(fd, 0);
 	return (0);
+}
+
+void here_doc(char *key)
+{
+	char *line;
+	char *total;
+	char *temp;
+
+	temp = NULL;
+	total = NULL;
+	line = readline("<");
+	while (ft_strncmp(line, key, ft_strlen(key)))
+	{
+		temp = total;
+		total = ft_calloc(ft_strlen(total) + ft_strlen(line) + 2, sizeof(char));
+		ft_strlcpy(total, temp, ft_strlen(temp) + 1);
+		ft_strlcpy((total + ft_strlen(total)), line, ft_strlen(line) + ft_strlen(total) + 1);
+		*(total + ft_strlen(total)) = '\n';
+		free(temp);
+		free(line);
+		line = readline("<");
+	}
+	printf("[%s]",total);
+	free(line);
+	free(total);
 }

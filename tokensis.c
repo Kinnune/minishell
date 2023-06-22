@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/25 12:09:16 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:42:42 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,65 @@ accepted states
 	quotes -> matching quote
 	pipe -> something on left side
 			if right side missing prompt for compeletion
-	program name -> ends in " " or other recognized token
+	program name -> ends in ' ' or other recognized token
 	redirections -> require only right field, the filename
 	$ -> ?, valid name of variable
 */
+
+// always interpret meta sequences / operators
+
+// building the tree
+// commands that have ** arguments and redirections
+// commands are separated by pipes
+
+int	syntax_error(void)
+{
+	write(2, "minishell: syntax error\n", 24);
+	return (-1);
+}
+
+int count_quotes(char *input)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (*input)
+	{
+		if (*input == '\'' && !(j % 2))
+			i++;
+		if (*input == '\"' && !(i % 2))
+			j++;
+		input++;
+	}
+	if (i % 2 + j % 2)
+		return (syntax_error());
+	return (0);
+}
+
+int check_tokens(t_token *token)
+{
+	int i;
+
+	if (!token)
+		return (0);
+	while (token)
+	{
+		if (token->type == PIPE)
+		{
+			if (!token->prev || !token->next)
+				return (syntax_error());
+		}
+		if (token_type_redir(token))
+		{
+			if (!token_type_command(token->next))
+				return (syntax_error());
+		}
+		token = token->next;
+	}
+	return (0);
+}
 
 t_token	*tokenizer(const char *input)
 {
@@ -29,11 +84,15 @@ t_token	*tokenizer(const char *input)
 
 	if (!input)
 		return (NULL);
+	else if (!*input)
+		return (NULL);
 	head = NULL;
 	while (*input)
 	{
-		while (*input == " ")
+		while (*input == ' ')
 			input++;
+		if (!*input)
+			break ;
 		if (special_symbol(*input))
 			node = handle_special_symbol(input);
 		else
@@ -46,6 +105,8 @@ t_token	*tokenizer(const char *input)
 		input += node->size;
 		append_token(&head, node);
 	}
+	if (head)
+		head->prev = NULL;
 	return (head);
 }
 
@@ -75,10 +136,8 @@ t_token	*is_progname(const char *input)
 
 	size = 0;
 	while (!special_symbol(*(input + size)))
-	{
 		size++;
-	}
-	return (make_token(input, size, PROG));
+	return (make_token(input, size, NAME));
 }
 
 t_token	*is_redir(const char *input)
@@ -131,7 +190,7 @@ t_token	*is_var(const char *input)
 	size = 0;
 	//while character is valid name character
 	//to-do: quotes and expansions
-	while (*(input + size) != '=' && *(input + size) != " " && *(input + size))
+	while (*(input + size) != '=' && *(input + size) != ' ' && *(input + size))
 		size++;
 	return (make_token(input, size, ENVAR));
 }
@@ -172,6 +231,7 @@ void	append_token(t_token **list_ptr, t_token *node)
 	while (list->next)
 		list = list->next;
 	list->next = node;
+	node->prev = list;
 	list = start;
 }
 
@@ -198,14 +258,14 @@ int		special_symbol(char input)
 {
 	return (input == '>' | input == '<' | input == '$'
 		| input == '|' | input == '\''  | input == '"'
-		| input == " " | input == '\t' | input == '\0');
+		| input == ' ' | input == '\t' | input == '\0');
 }
 
 void	print_tokens(t_token *token)
 {
 	while (token)
 	{
-		printf("%lu %s, %d, %s\n", token->size, token->str, token->type, token->pos);
+		printf("{%lu %s, %d, %s}\n", token->size, token->str, token->type, token->pos);
 		token = token->next;
 	}
 }
@@ -218,17 +278,3 @@ void	free_tokens(t_token *list)
 	free(list->str);
 	free(list);
 }
-
-// void	free_tokens(t_token *list)
-// {
-// 	t_token *temp;
-
-// 	while (list)
-// 	{
-// 		temp = list->next;
-// 		if (list->str)
-// 			free(list->str);
-// 		free(list);
-// 		list = temp;
-// 	}
-// }

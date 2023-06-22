@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/05/25 12:10:59 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:42:17 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 int main(void)
 {
-	t_command *list;
 	t_token *token;
+	t_command *command;
 	char *input;
-	char *args[10] = {".", NULL};
 
-	// print_environ();
-	// run_command("/Users/ekinnune/projects/minishell/gitshell/no_access", args);
-	// printf("keeps going\n");
-	// return (0);
-	while (1)	
+	while (1)
 	{
 		input = readline(">");
-		printf("[%s]\n", input);
-		// list = build_commands(input);
-		token = tokenizer(input);
-		print_tokens(token);
+		if (!count_quotes(input))
+			token = tokenizer(input);
+		if (token && !check_tokens(token))
+		{
+			// print_tokens(token);
+			command = convert_tokens(token);
+			//handle_commands()
+			print_commands(command);
+			token = NULL;
+		}
 		free_tokens(token);
-		// printf("[%d]\n", lst_size(list));
-		// lst_print_args(list);
-		// lst_free(list);
+		//free_commands(command);
 		if (input)
 			free(input);
 	}
