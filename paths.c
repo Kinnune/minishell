@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/22 14:43:59 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:31:08 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,12 @@ char *get_path(char *command)
 	char *error_msg;
 	int i;
 
+//unsafe
+for (i = 0; environ[i]; i++)
+{
+	if (!ft_strncmp(environ[i], "PATH=", 5))
+		break ;
+}
 	if (!command)
 		return (NULL);
 	if (*command != '/')
@@ -109,7 +115,7 @@ char *get_path(char *command)
 		{
 			// this environ index was 13 before and apparently working???
 			// if it changed that is scary
-			path_split = ft_split((*(environ + 11) + 5), ':');
+			path_split = ft_split((*(environ + i) + 5), ':');
 			if (!path_split)
 				return (NULL);
 			i = 0;

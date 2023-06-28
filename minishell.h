@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/06/22 12:47:53 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:24:39 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # include <unistd.h>
 
 # define BUFFER 1024
+
+typedef struct	s_command
+{
+	char **cmd;
+	char **redir;
+	struct s_command *next;
+}	t_command;
 
 typedef struct s_data
 {
@@ -51,6 +58,13 @@ void add_string(char *new_string);
 void free_array(char **temp);
 void add_quotes(char* input) ;
 int ft_length_word(char **envp);
+
+int ft_exec(t_command *command, int i, int **fd, pid_t *pid);
+int piepe_function(t_command *list, int i);
+int ft_free(int **fd, int *pid, int i);
+int close_pipe(int **fd, int i);
+void	check_list(t_command *command);
+
 
 //------
 typedef enum
@@ -80,13 +94,6 @@ typedef struct s_token
 	struct s_token *prev;
 }	t_token;
 
-typedef struct	s_command
-{
-	char **cmd;
-	char **redir;
-	struct s_command *next;
-}	t_command;
-
 int count_quotes(char *input);
 int check_tokens(t_token *token);
 void here_doc(char *key);
@@ -98,8 +105,9 @@ char	*dot_slash_remove(char *path);
 char	*get_path(char *command);
 
 //redir.c
-int			redirect_out(int append, char *filename);
-int			redirect_in(int delimiter, char *filename);
+int			redirect_out(int append, char *filename, int new_fd);
+int			redirect_in(int delimiter, char *filename, int new_fd);
+int			check_redirect(t_command *command, int new_fd);
 
 //tokensis.c
 t_token	*tokenizer(const char *input);
@@ -128,6 +136,7 @@ t_token *find_redir(t_token *token);
 t_token	*skip_pipe(t_token *token);
 t_command	*convert_tokens(t_token *token);
 void print_commands(t_command *command);
+void	free_commands(t_command *command);
 
 //------
 #endif

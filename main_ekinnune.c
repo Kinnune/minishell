@@ -6,11 +6,44 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/22 12:50:49 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 16:49:31 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int main(void)
+{
+	t_token *token;
+	t_command *command;
+	char *input;
+
+	while (1)
+	{
+		command = NULL;
+		input = readline(">");
+		if (!count_quotes(input))
+			token = tokenizer(input);
+		if (!check_tokens(token))
+		{
+			// print_tokens(token);
+			command = convert_tokens(token);
+			check_list(command);
+			// build_pipes(command);
+			//handle_commands(command);
+			// print_commands(command);
+			free_tokens(token);
+			// printf("freed tokens\n");
+			token = NULL;
+		}
+		free_commands(command);
+		// printf("freed commands\n");
+        // execve(get_path(*command->cmd),command->cmd, g_data.envir);
+		if (input)
+			free(input);
+	}
+	return (0);
+}
 
 // void	build_pipes(t_command *command)
 // {
@@ -52,32 +85,3 @@
 // 	else
 // 		handle_commands(command->next);
 // }
-
-int main(void)
-{
-	t_token *token;
-	t_command *command;
-	char *input;
-
-	while (1)
-	{
-		input = readline(">");
-		if (!count_quotes(input))
-			token = tokenizer(input);
-		printf("'%s'\n", get_path(token->str));
-		if (token && !check_tokens(token))
-		{
-			// print_tokens(token);
-			command = convert_tokens(token);
-			// build_pipes(command);
-			//handle_commands(command);
-			print_commands(command);
-			token = NULL;
-		}
-		free_tokens(token);
-		//free_commands(command);
-		if (input)
-			free(input);
-	}
-	return (0);
-}

@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/21 15:55:14 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 14:26:56 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,4 +183,16 @@ void print_commands(t_command *command)
 	}
 	printf("\n");
 	print_commands(command->next);
+}
+
+void	free_commands(t_command *command)
+{
+	if (!command)
+		return ;
+	free_commands(command->next);
+	if (command->redir)
+		free(command->redir);
+	if (command->cmd)
+		free(command->cmd);
+	free(command);
 }

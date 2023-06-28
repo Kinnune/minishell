@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/21 15:42:42 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 14:28:57 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int check_tokens(t_token *token)
 	int i;
 
 	if (!token)
-		return (0);
+		return (1);
 	while (token)
 	{
 		if (token->type == PIPE)

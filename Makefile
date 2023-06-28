@@ -6,7 +6,7 @@
 #    By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/06/20 13:30:13 by ekinnune         ###   ########.fr        #
+#    Updated: 2023/06/26 16:31:44 by ekinnune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 SRC = main_ekinnune.c \
 		function.c exit.c ft_history.c pwd.c cd.c \
 		export.c copyenv.c redir.c tokensis.c paths.c \
-		commands.c
+		commands.c pipe_re.c
 
 OUT = $(SRC:.c=.o)
 
