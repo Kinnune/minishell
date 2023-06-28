@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/26 15:31:08 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:05:28 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ for (i = 0; environ[i]; i++)
 		return (NULL);
 	if (*command != '/')
 	{
-		path_ptr = &path[0];
-		*path_ptr = 0;
+		path_ptr = ft_calloc(2, PATH_MAX);
+		//protect malloc
 		if (ft_strchr(command, '/')) //relative path
 		{
 			getcwd(path_ptr, PATH_MAX);
