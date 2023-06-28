@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 17:06:19 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:09:58 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(void)
 
 	while (1)
 	{
-		// command = NULL;
+		command = NULL;
 		input = readline(">");
 		if (!count_quotes(input))
 			token = tokenizer(input);
