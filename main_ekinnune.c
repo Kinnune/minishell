@@ -6,11 +6,13 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 17:09:58 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:05:47 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void here_doc(char *key);
 
 int main(void)
 {

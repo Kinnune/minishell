@@ -51,6 +51,10 @@ int piepe_function(t_command *list, int i)
 	return(j);
 }
 
+
+int	check_redirect_in(char **redir);
+int	check_redirect_out(char **redir);
+
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
 	int j;
@@ -66,32 +70,18 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			ft_free(fd, pid, i);//imprimir error
 		if(pid[j] == 0)
 		{
-			if (j <= (i - 1))
+			if (!check_redirect_out(command->redir) && j <= (i - 1))
 			{
-
 				// dprintf(2, "putting stdout\n");
-
-				// if (check_redirect(command, 0) == RDIROUT)
-				// {
-				// 	redirect_out(0, "testout", STDOUT_FILENO);
-				// }
-				// else
-					dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
+				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
 			}
-			if (j != 0)
+			if (!check_redirect_in(command->redir) && j != 0)
 			{
 				// dprintf(2, "putting stdin\n");
-				// if (check_redirect(command, 0) == RDIRIN)
-				// {
-				// 	printf("we redirin\n");
-				// 	redirect_in(0, "test", STDIN_FILENO);
-				// }
-				// else
-					dup2(fd[j - 1][0], STDIN_FILENO);
-
+				dup2(fd[j - 1][0], STDIN_FILENO);
 			}
 			close_pipe(fd, i);
-            if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)
+			if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)
 			{
 				printf("exiting cause of error\n");
 				exit(0);
@@ -99,8 +89,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 		}
 		// printf("command %s\n", get_path(*command->cmd));
 		if (command->next)
- 	       command= command->next;
-
+			command = command->next;
 		j++;
 	}
 	j = 0;

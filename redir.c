@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 14:24:04 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:05:40 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,65 @@
 
 //lsof -p
 
+void here_doc(char *key);
+
+int	check_redirect_in(char **redir)
+{
+	if (!ft_strncmp(*redir, "<", ft_strlen(*redir)))
+	{
+		// dprintf(2, "setting in\n");
+		redirect_in(0, *(redir + 1), STDIN_FILENO);
+		return (1 + check_redirect_in(redir + 2));
+	}
+	else if (!ft_strncmp(*redir, "<<", ft_strlen(*redir)))
+	{
+		printf("heredoc\n");
+		here_doc(*(redir + 1));
+		return (1 + check_redirect_in(redir + 2));
+	}
+	else if (!ft_strncmp(*redir, ">", ft_strlen(*redir))
+		|| !ft_strncmp(*redir, ">>", ft_strlen(*redir)))
+		return (check_redirect_in(redir + 2));
+	return (0);
+}
+
+/* here we trust the redirects come in pairs of 2 and they will */
+int	check_redirect_out(char **redir)
+{
+	// dprintf(2, "'%s'\n", *redir);
+	// dprintf(2, "'%s'\n", *(redir + 1));
+	if (!ft_strncmp(*redir, ">", ft_strlen(*redir)))
+	{
+		// dprintf(2, "setting out >%s\n", *(redir + 1));
+		redirect_out(0, *(redir + 1), STDOUT_FILENO);
+		return (1 + check_redirect_out(redir + 2));
+	}
+	else if (!ft_strncmp(*redir, ">>", ft_strlen(*redir)))
+	{
+		// dprintf(2, "setting out >>\n");
+		redirect_out(1, *(redir + 1), STDOUT_FILENO);
+		return (1 + check_redirect_out(redir + 2));
+	}
+	else if (!ft_strncmp(*redir, "<", ft_strlen(*redir))
+		|| !ft_strncmp(*redir, "<<", ft_strlen(*redir)))
+		return (check_redirect_out(redir + 2));
+	return (0);
+
+}
+
 int	check_redirect(t_command *command, int new_fd)
 {
 	if (!ft_strncmp(command->redir[0], "<", 1))
 	{
-		return (RDIRIN);
+		printf("setting in\n");
+		redirect_in(0, *((command->redir) + 1), STDIN_FILENO);
+		return (-1);
 	}
-	if (!ft_strncmp(command->redir[0], ">", 1))
+	if (!ft_strncmp(command->redir[0], ">", ft_strlen(command->redir[0])))
 	{
-		return (RDIROUT);
+		printf("setting out\n");
+		redirect_out(0, *((command->redir) + 1), STDOUT_FILENO);
+		return (1);
 	}
 	return (0);
 }
@@ -67,7 +117,7 @@ void here_doc(char *key)
 	temp = NULL;
 	total = NULL;
 	line = readline("<");
-	while (ft_strncmp(line, key, ft_strlen(key)))
+	while (ft_strncmp(line, key, ft_strlen(line)))
 	{
 		temp = total;
 		total = ft_calloc(ft_strlen(total) + ft_strlen(line) + 2, sizeof(char));
@@ -80,8 +130,9 @@ void here_doc(char *key)
 		free(line);
 		line = readline("<");
 	}
-	printf("[%s]",total);
 	free(line);
+	// printf("[%s]",total);
+	// write(STDOUT_FILENO, total, ft_strlen(total));
 	free(total);
 }
 	// {
