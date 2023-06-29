@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 14:28:57 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:30:17 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_token	*is_redir(const char *input)
 		if (*(input + 1) == '<')
 		{
 			size = 2;
-			token_type = RDIRDEL;
+			token_type = RDIRDOC;
 		}
 		else
 		{

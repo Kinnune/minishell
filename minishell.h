@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/06/28 17:25:17 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:49:12 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_command
 {
 	char **cmd;
 	char **redir;
+	char *here_doc;
 	struct s_command *next;
 }	t_command;
 
@@ -75,7 +76,7 @@ typedef enum
 	RDIRIN,
 	RDIROUT,
 	RDIRAPP,
-	RDIRDEL,
+	RDIRDOC,
 	PIPE,
 	ENVAR,
 	EXVAR
@@ -96,7 +97,7 @@ typedef struct s_token
 
 int count_quotes(char *input);
 int check_tokens(t_token *token);
-void here_doc(char *key);
+char	*here_doc(char *key);
 int	syntax_error(void);
 
 //paths.c

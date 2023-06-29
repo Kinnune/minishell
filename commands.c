@@ -6,11 +6,40 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 14:26:56 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:00:56 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_command	*convert_tokens(t_token *token)
+{
+	int i;
+	t_command *command;
+	t_token *test_token;
+
+	command->here_doc = NULL;
+	if (!token)
+		return (NULL);
+	command = malloc(sizeof(t_command));
+	if (!command)
+		return (NULL);
+	test_token = find_redir(token);
+	i = count_redir(test_token);
+	command->redir = ft_calloc(i + 1, sizeof(char *));
+	if (!command->redir)
+		;//handle malloc error
+	i = set_redir(command, test_token);
+	command->redir -= i;
+	i = count_name(token);
+	command->cmd = ft_calloc(i + 1, sizeof(char *));
+	if (!command->cmd)
+		;//handle malloc error
+	i = set_name(command, token);
+	command->cmd -= i;
+	command->next = convert_tokens(skip_pipe(token));
+	return (command);
+}
 
 int token_type_command(t_token *token)
 {
@@ -30,7 +59,7 @@ int token_type_redir(t_token *token)
 	return (token->type == RDIRIN |
 				token->type == RDIROUT |
 				token->type == RDIRAPP |
-				token->type == RDIRDEL);
+				token->type == RDIRDOC);
 }
 
 t_token *skip_i_token(t_token *token, int i)
@@ -84,6 +113,12 @@ int set_redir(t_command *command, t_token *token)
 		{
 			*(command->redir) = token->str;
 			*(command->redir + 1) = token->next->str;
+			if (token->type == RDIRDOC)
+			{
+				if (command->here_doc)
+					free(command->here_doc);
+				command->here_doc = here_doc(token->next->str);
+			}
 			command->redir += 2;
 			return (2 + set_redir(command, find_redir(token->next->next)));
 		}
@@ -133,34 +168,6 @@ t_token	*skip_pipe(t_token *token)
 	return (token);
 }
 
-t_command	*convert_tokens(t_token *token)
-{
-	int i;
-	t_command *command;
-	t_token *test_token;
-
-	if (!token)
-		return (NULL);
-	command = malloc(sizeof(t_command));
-	if (!command)
-		return (NULL);
-	test_token = find_redir(token);
-	i = count_redir(test_token);
-	command->redir = ft_calloc(i + 1, sizeof(char *));
-	if (!command->redir)
-		;//handle malloc error
-	i = set_redir(command, test_token);
-	command->redir -= i;
-	i = count_name(token);
-	command->cmd = ft_calloc(i + 1, sizeof(char *));
-	if (!command->cmd)
-		;//handle malloc error
-	i = set_name(command, token);
-	command->cmd -= i;
-	command->next = convert_tokens(skip_pipe(token));
-	return (command);
-}
-
 void print_commands(t_command *command)
 {
 	int i;
@@ -194,5 +201,7 @@ void	free_commands(t_command *command)
 		free(command->redir);
 	if (command->cmd)
 		free(command->cmd);
+	if (command->here_doc)
+		free(command->here_doc);
 	free(command);
 }

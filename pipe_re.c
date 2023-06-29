@@ -52,8 +52,8 @@ int piepe_function(t_command *list, int i)
 }
 
 
-int	check_redirect_in(char **redir);
 int	check_redirect_out(char **redir);
+int	check_redirect_in(char **redir, char *here_doc);
 
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
@@ -70,15 +70,15 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			ft_free(fd, pid, i);//imprimir error
 		if(pid[j] == 0)
 		{
+			if (!check_redirect_in(command->redir, command->here_doc) && j != 0)
+			{
+				// dprintf(2, "putting stdin\n");
+				dup2(fd[j - 1][0], STDIN_FILENO);
+			}
 			if (!check_redirect_out(command->redir) && j <= (i - 1))
 			{
 				// dprintf(2, "putting stdout\n");
 				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
-			}
-			if (!check_redirect_in(command->redir) && j != 0)
-			{
-				// dprintf(2, "putting stdin\n");
-				dup2(fd[j - 1][0], STDIN_FILENO);
 			}
 			close_pipe(fd, i);
 			if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)

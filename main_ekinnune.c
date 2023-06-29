@@ -6,13 +6,11 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 19:05:47 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:39:32 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void here_doc(char *key);
 
 int main(void)
 {
@@ -38,7 +36,7 @@ int main(void)
 			// printf("freed tokens\n");
 			token = NULL;
 		}
-		free_commands(command);
+		// free_commands(command);
 		// printf("freed commands\n");
         // execve(get_path(*command->cmd),command->cmd, g_data.envir);
 		if (input)

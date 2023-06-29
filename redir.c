@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/28 19:05:40 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:59:37 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 //lsof -p
 
-void here_doc(char *key);
-
-int	check_redirect_in(char **redir)
+int	check_redirect_in(char **redir, char *here_doc)
 {
+	// dprintf(2, "%s, %s\n", *redir, here_doc);
 	if (!ft_strncmp(*redir, "<", ft_strlen(*redir)))
 	{
 		// dprintf(2, "setting in\n");
 		redirect_in(0, *(redir + 1), STDIN_FILENO);
-		return (1 + check_redirect_in(redir + 2));
+		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
 	else if (!ft_strncmp(*redir, "<<", ft_strlen(*redir)))
 	{
-		printf("heredoc\n");
-		here_doc(*(redir + 1));
-		return (1 + check_redirect_in(redir + 2));
+		// dprintf(2, "heredoc\n");
+		if (!*(redir + 2))
+			write (STDIN_FILENO, here_doc, ft_strlen(here_doc));
+		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
 	else if (!ft_strncmp(*redir, ">", ft_strlen(*redir))
 		|| !ft_strncmp(*redir, ">>", ft_strlen(*redir)))
-		return (check_redirect_in(redir + 2));
+		return (check_redirect_in(redir + 2, here_doc));
 	return (0);
 }
 
@@ -81,7 +81,6 @@ int	redirect_out(int append, char *filename, int new_fd)
 {
 	int fd;
 
-//for open put rights
 	if (append)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
@@ -106,9 +105,8 @@ int	redirect_in(int delimiter, char *filename, int new_fd)
 	return (new_fd);
 }
 
-//write to pipe return pipe out close pipe in 
-//and set redirect in to pipe out
-void here_doc(char *key)
+//	check the newline cases
+char *here_doc(char *key)
 {
 	char *line;
 	char *total;
@@ -117,23 +115,28 @@ void here_doc(char *key)
 	temp = NULL;
 	total = NULL;
 	line = readline("<");
-	while (ft_strncmp(line, key, ft_strlen(line)))
+	while (ft_strncmp(line, key, ft_strlen(line) + ft_strlen(key)))
 	{
-		temp = total;
-		total = ft_calloc(ft_strlen(total) + ft_strlen(line) + 2, sizeof(char));
-		if (!total)
-			return ;
-		ft_strlcpy(total, temp, ft_strlen(temp) + 1);
-		ft_strlcpy((total + ft_strlen(total)), line, ft_strlen(line) + ft_strlen(total) + 1);
-		*(total + ft_strlen(total)) = '\n';
-		free(temp);
-		free(line);
+		if (line)
+		{
+			temp = total;
+			total = ft_calloc(ft_strlen(total) + ft_strlen(line) + 2, sizeof(char));
+			if (!total)
+				return (NULL);
+			ft_strlcpy(total, temp, ft_strlen(temp) + 1);
+			ft_strlcpy((total + ft_strlen(total)), line, ft_strlen(line) + ft_strlen(total) + 1);
+			*(total + ft_strlen(total)) = '\n';
+			free(temp);
+			free(line);
+		}
 		line = readline("<");
 	}
-	free(line);
+	if (line)
+		free(line);
 	// printf("[%s]",total);
 	// write(STDOUT_FILENO, total, ft_strlen(total));
-	free(total);
+	// free(total);
+	return (total);
 }
 	// {
 		// if (access(filename, F_OK))
