@@ -6,11 +6,13 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/29 17:39:32 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/03 09:51:37 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check for unitialized values
 
 int main(void)
 {
@@ -21,6 +23,7 @@ int main(void)
 	while (1)
 	{
 		command = NULL;
+		// token = NULL;
 		input = readline(">");
 		if (!count_quotes(input))
 			token = tokenizer(input);
@@ -31,8 +34,8 @@ int main(void)
 			check_list(command);
 			// build_pipes(command);
 			//handle_commands(command);
-			// print_commands(command);
-			free_tokens(token);
+			print_commands(command);
+			// free_tokens(token);
 			// printf("freed tokens\n");
 			token = NULL;
 		}

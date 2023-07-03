@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/06/29 16:49:12 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/03 12:30:25 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char	*dot_slash_remove(char *path);
 char	*get_path(char *command);
 
 //redir.c
-int			redirect_out(int append, char *filename, int new_fd);
-int			redirect_in(int delimiter, char *filename, int new_fd);
+int			redirect_out(int append, char *filename);
+int			redirect_in(int delimiter, char *filename);
 int			check_redirect(t_command *command, int new_fd);
 
 //tokensis.c

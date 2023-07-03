@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/29 18:00:56 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/03 10:50:05 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ t_command	*convert_tokens(t_token *token)
 	t_command *command;
 	t_token *test_token;
 
-	command->here_doc = NULL;
 	if (!token)
 		return (NULL);
-	command = malloc(sizeof(t_command));
+	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
 	test_token = find_redir(token);

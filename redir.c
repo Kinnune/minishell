@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/29 17:59:37 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/03 13:06:48 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,40 @@
 
 //lsof -p
 
+/* here we trust the redirects come in pairs of 2 and they will */
 int	check_redirect_in(char **redir, char *here_doc)
 {
-	// dprintf(2, "%s, %s\n", *redir, here_doc);
+	int	fd;
+	int filedes[2];
+
+	if (!*redir)
+		return (0);
 	if (!ft_strncmp(*redir, "<", ft_strlen(*redir)))
 	{
-		// dprintf(2, "setting in\n");
-		redirect_in(0, *(redir + 1), STDIN_FILENO);
+		// fd = open(*(redir + 1), O_RDONLY);
+		// if (fd < 0)
+		// 	exit (-1);
+		// if (dup2(fd, STDIN_FILENO) < 0)
+		// 	exit (-1);
+		// close(fd);
+		redirect_in(0, *(redir + 1));
 		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
 	else if (!ft_strncmp(*redir, "<<", ft_strlen(*redir)))
 	{
-		// dprintf(2, "heredoc\n");
+		//made this pipe stuff in 5 minutes to make cat work properly
+		//might leak stuff and not work as expected
+		// \/this is the if previously\/
+		// write (STDIN_FILENO, here_doc, ft_strlen(here_doc + 1));
 		if (!*(redir + 2))
-			write (STDIN_FILENO, here_doc, ft_strlen(here_doc));
+		{
+			//check for failures
+			pipe(filedes);
+			dup2(filedes[0], STDIN_FILENO);
+			write (filedes[1], here_doc, ft_strlen(here_doc + 1));
+			close (filedes[0]);
+			close (filedes[1]);
+		}
 		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
 	else if (!ft_strncmp(*redir, ">", ft_strlen(*redir))
@@ -36,48 +56,41 @@ int	check_redirect_in(char **redir, char *here_doc)
 	return (0);
 }
 
-/* here we trust the redirects come in pairs of 2 and they will */
 int	check_redirect_out(char **redir)
 {
-	// dprintf(2, "'%s'\n", *redir);
-	// dprintf(2, "'%s'\n", *(redir + 1));
+	int	fd;
+
+	if (!*redir)
+		return (0);
 	if (!ft_strncmp(*redir, ">", ft_strlen(*redir)))
 	{
-		// dprintf(2, "setting out >%s\n", *(redir + 1));
-		redirect_out(0, *(redir + 1), STDOUT_FILENO);
+		// fd = open(*(redir + 1), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		// if (fd < 0)
+		// 	exit (-1);
+		// if (dup2(fd, STDOUT_FILENO) < 0)
+		// 	exit (-1);
+		// close(fd);
+		redirect_out(0, *(redir + 1));
 		return (1 + check_redirect_out(redir + 2));
 	}
 	else if (!ft_strncmp(*redir, ">>", ft_strlen(*redir)))
 	{
-		// dprintf(2, "setting out >>\n");
-		redirect_out(1, *(redir + 1), STDOUT_FILENO);
+		// fd = open(*(redir + 1), O_WRONLY | O_CREAT | O_APPEND, 0644);
+		// if (fd < 0)
+		// 	exit (-1);
+		// if (dup2(fd, STDOUT_FILENO) < 0)
+		// 	exit (-1);
+		// close(fd);
+		redirect_out(1, *(redir + 1));
 		return (1 + check_redirect_out(redir + 2));
 	}
 	else if (!ft_strncmp(*redir, "<", ft_strlen(*redir))
 		|| !ft_strncmp(*redir, "<<", ft_strlen(*redir)))
 		return (check_redirect_out(redir + 2));
 	return (0);
-
 }
 
-int	check_redirect(t_command *command, int new_fd)
-{
-	if (!ft_strncmp(command->redir[0], "<", 1))
-	{
-		printf("setting in\n");
-		redirect_in(0, *((command->redir) + 1), STDIN_FILENO);
-		return (-1);
-	}
-	if (!ft_strncmp(command->redir[0], ">", ft_strlen(command->redir[0])))
-	{
-		printf("setting out\n");
-		redirect_out(0, *((command->redir) + 1), STDOUT_FILENO);
-		return (1);
-	}
-	return (0);
-}
-
-int	redirect_out(int append, char *filename, int new_fd)
+int	redirect_out(int append, char *filename)
 {
 	int fd;
 
@@ -85,12 +98,14 @@ int	redirect_out(int append, char *filename, int new_fd)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	dup2(fd, STDOUT_FILENO);
+	if (dup2(fd, STDOUT_FILENO) < 0)
+		exit (-1);
+
 	close(fd);
 	return (0);
 }
 
-int	redirect_in(int delimiter, char *filename, int new_fd)
+int	redirect_in(int delimiter, char *filename)
 {
 	struct stat file_stat;
 	char *buffer;
@@ -99,10 +114,10 @@ int	redirect_in(int delimiter, char *filename, int new_fd)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (fd);
-	dup2(fd, new_fd);
-	// dup2(fd, STDIN_FILENO);
+	if (dup2(fd, STDIN_FILENO) < 0)
+		exit (-1);
 	close(fd);
-	return (new_fd);
+	return (0);
 }
 
 //	check the newline cases
