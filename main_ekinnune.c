@@ -100,10 +100,11 @@ int main(int argc, char **argv, char **envp)
 		{
 			// print_tokens(token);
 			command = convert_tokens(token);
+			expand_command_args(command);
+			print_commands(command);
 			check_list(command);
 			// build_pipes(command);
 			//handle_commands(command);
-			print_commands(command);// this we will not need
 			// free_tokens(token);
 			// printf("freed tokens\n");
 			token = NULL;
@@ -125,46 +126,4 @@ int main(int argc, char **argv, char **envp)
 	}
 	printf("%d", i);
 	return (i);
-	//return (0);
 }
-
-// void	build_pipes(t_command *command)
-// {
-// 	if (!command)
-// 		return ;
-// 	// handle_pipes(command);
-// 	build_pipes(command->next);
-// }
-
-// void	build_redirections(t_command *command)
-// {
-// 	if (!command)
-// 		return ;
-// 	if (!*(command->redir))
-// 		return ;
-// 	handle_redirections(command);
-// 	// if (command->next)
-// 	// 	build_redirecitons(command->next);
-// }
-
-// // command->next
-// // *command->redir;
-// // execve(get_path(*command->cmd), (command->cmd + 1), g_data.envir);
-
-// void	handle_commands(t_command *command)
-// {
-// 	pid_t pid;
-
-// 	if (!command)
-// 		return ;
-// 	pid = fork();
-// 	if (pid < 0)
-// 		return ;
-// 	if (pid == 0)
-// 	{
-// 		build_redirections(command);
-// 		// run_command(command);
-// 	}
-// 	else
-// 		handle_commands(command->next);
-// }

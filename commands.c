@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/03 10:50:05 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:54:49 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,12 @@ int set_redir(t_command *command, t_token *token)
 	{
 		if (token->next)
 		{
-			*(command->redir) = token->str;
-			*(command->redir + 1) = token->next->str;
+			*(command->redir) = ft_strdup(token->str);
+			if (!*(command->redir))
+				;//handle error
+			*(command->redir + 1) = ft_strdup(token->next->str);
+			if (!*(command->cmd))
+				;//handle error
 			if (token->type == RDIRDOC)
 			{
 				if (command->here_doc)
@@ -135,7 +139,9 @@ int set_name(t_command *command, t_token *token)
 		return (0);
 	if (token_type_command(token))
 	{
-		*(command->cmd) = token->str;
+		*(command->cmd) = ft_strdup(token->str);
+		if (!*(command->cmd))
+			;//handle error
 		command->cmd += 1;
 		return (1 + set_name(command, token->next));
 	}

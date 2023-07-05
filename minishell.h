@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/04 17:31:13 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/05 11:04:46 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,14 @@ int count_quotes(char *input);
 int check_tokens(t_token *token);
 char	*here_doc(char *key);
 int	syntax_error(void);
+
+//expand_var.c
+int	valid_varname(char c);
+int	expand_command_args(t_command *command);
+char	*expand_var(char *str);
+char *check_var_logic(char **str);
+int check_dollar(char *str);
+
 
 //paths.c
 void	print_environ(void);
