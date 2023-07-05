@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/05 11:04:46 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:46:58 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,11 @@ char	*dot_slash_remove(char *path);
 char	*get_path(char *command);
 
 //redir.c
-int			redirect_out(int append, char *filename);
-int			redirect_in(int delimiter, char *filename);
-int			check_redirect(t_command *command, int new_fd);
+int	redirect_out(int append, char *filename);
+int	redirect_in(int delimiter, char *filename);
+int	check_redirect(t_command *command, int new_fd);
+int	check_redirect_out(char **redir);
+int	check_redirect_in(char **redir, char *here_doc);
 
 //tokensis.c
 t_token	*tokenizer(const char *input);

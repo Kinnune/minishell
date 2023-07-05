@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/06/29 16:30:17 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:22:05 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	syntax_error(void)
 	return (-1);
 }
 
-int count_quotes(char *input)
+int	count_quotes(char *input)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -54,9 +54,9 @@ int count_quotes(char *input)
 	return (0);
 }
 
-int check_tokens(t_token *token)
+int	check_tokens(t_token *token)
 {
-	int i;
+	int	i;
 
 	if (!token)
 		return (1);
@@ -79,8 +79,8 @@ int check_tokens(t_token *token)
 
 t_token	*tokenizer(const char *input)
 {
-	t_token *head;
-	t_token *node;
+	t_token	*head;
+	t_token	*node;
 
 	if (!input)
 		return (NULL);
@@ -112,7 +112,7 @@ t_token	*tokenizer(const char *input)
 
 t_token	*make_token(const char *pos, size_t size, e_type type)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
@@ -132,7 +132,7 @@ t_token	*make_token(const char *pos, size_t size, e_type type)
 
 t_token	*is_progname(const char *input)
 {
-	size_t size;
+	size_t	size;
 
 	size = 0;
 	while (!special_symbol(*(input + size)))
@@ -142,9 +142,9 @@ t_token	*is_progname(const char *input)
 
 t_token	*is_redir(const char *input)
 {
-	t_token *token;
-	size_t size;
-	e_type token_type;
+	t_token	*token;
+	size_t	size;
+	e_type	token_type;
 
 	size = 0;
 	if (*input == '<')
@@ -183,13 +183,11 @@ t_token	*is_pipe(const char *input)
 
 t_token	*is_var(const char *input)
 {
-	size_t size;
+	size_t	size;
 
 	if (*(input + 1) == '?')
 		return (make_token(input, 2, EXVAR));
 	size = 0;
-	//while character is valid name character
-	//to-do: quotes and expansions
 	while (*(input + size) != '=' && *(input + size) != ' ' && *(input + size))
 		size++;
 	return (make_token(input, size, ENVAR));
@@ -197,14 +195,13 @@ t_token	*is_var(const char *input)
 
 t_token	*is_quote(const char *input)
 {
-	e_type token_type;
-	size_t size;
+	e_type	token_type;
+	size_t	size;
 
 	if (*input == '\'')
 		token_type = SQUOTE;
 	else
 		token_type = DQUOTE;
-	//to-do: handle variable expansion in DQUOTE
 	size = 1;
 	while (*(input + size) != *input)
 	{
@@ -218,8 +215,8 @@ t_token	*is_quote(const char *input)
 
 void	append_token(t_token **list_ptr, t_token *node)
 {
-	t_token *start;
-	t_token *list;
+	t_token	*start;
+	t_token	*list;
 
 	if (!(*list_ptr))
 	{
@@ -240,7 +237,7 @@ t_token	*handle_name_symbol(const char *input)
 	return (is_progname(input));
 }
 
-t_token *handle_special_symbol(const char *input)
+t_token	*handle_special_symbol(const char *input)
 {
 	if (*input == '\'' || *input == '"')
 		return (is_quote(input));
@@ -254,10 +251,10 @@ t_token *handle_special_symbol(const char *input)
 		return (NULL);
 }
 
-int		special_symbol(char input)
+int	special_symbol(char input)
 {
 	return (input == '>' | input == '<' | input == '$'
-		| input == '|' | input == '\''  | input == '"'
+		| input == '|' | input == '\'' | input == '"'
 		| input == ' ' | input == '\t' | input == '\0');
 }
 
@@ -265,7 +262,8 @@ void	print_tokens(t_token *token)
 {
 	while (token)
 	{
-		printf("{%lu %s, %d, %s}\n", token->size, token->str, token->type, token->pos);
+		printf("{%lu %s, %d, %s}\n",
+			token->size, token->str, token->type, token->pos);
 		token = token->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 12:18:21 by djames            #+#    #+#             */
-/*   Updated: 2023/07/03 14:49:09 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:38:06 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,30 @@ int check_built(char *promline)
 		}else if(str[0] != NULL && ft_strncmp(str[0], "echo", 4) == 0)
 		{
 			printf("reconoce echo\n");
+			i = 0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "cd", 2) == 0)
 		{
 			change_directory(str[1]);
+			i = 0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "pwd", 3) == 0)
 		{
 			ft_pwd();
+			i = 0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "export", 6) == 0)
 		{
 			export_start(str);
+			i = 0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "unset", 6) == 0)
 		{
 			if(str[1] != NULL)
 				remove_start(str);
+			i = 0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "env", 3) == 0)
+		{
 			print_environment(1);
+			i = 0;
+
+		}
 	}
 	array_free(str);
 	return (i);

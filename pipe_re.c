@@ -51,10 +51,6 @@ int piepe_function(t_command *list, int i)
 	return(j);
 }
 
-
-int	check_redirect_out(char **redir);
-int	check_redirect_in(char **redir, char *here_doc);
-
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
 	int j;

@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/04 09:54:49 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:22:38 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int set_redir(t_command *command, t_token *token)
 			if (!*(command->redir))
 				;//handle error
 			*(command->redir + 1) = ft_strdup(token->next->str);
-			if (!*(command->cmd))
+			if (!*(command->redir + 1))
 				;//handle error
 			if (token->type == RDIRDOC)
 			{
