@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:01:51 by djames            #+#    #+#             */
-/*   Updated: 2023/05/25 11:35:18 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/03 15:40:19 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void copy_env(char **envp)
 	{
 		g_data.envir[i] = ft_strdup(envp[i]);
 		i++;
+	}
+	if(g_data.flag == 0)
+	{
+		g_data.flag=1;
+		add_string("OLDPWD"); 
 	}
 }
 void aux_remove()
@@ -90,13 +95,17 @@ void free_array(char **temp) {
     }
 }
 
-void add_string(char *new_string)//add_string 
+void add_string(char *new_string) 
 {
     int lenght;
 	int i;
+	char *remo;
 	char **temp;
 
 	i=0;
+	remo=(find_equal_2(new_string));
+	remove_string(remo);
+	free(remo);
 	lenght = ft_length_word(g_data.envir);
 	temp = malloc((lenght  + 2) * (sizeof(char *)));
 	temp[lenght + 1] = NULL;

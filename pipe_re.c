@@ -81,7 +81,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 				dprintf(2, "putting stdout\n");
 				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
 			}
-			close_pipe(fd, i);
+			close_pipe(fd, i);// preguntar
 			if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)
 			{
 				printf("exiting cause of error\n");
