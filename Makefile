@@ -6,7 +6,7 @@
 #    By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/07/03 10:33:18 by ekinnune         ###   ########.fr        #
+#    Updated: 2023/07/05 11:04:36 by ekinnune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,11 @@ NAME = minishell
 SRC = main_ekinnune.c \
 		function.c exit.c ft_history.c pwd.c cd.c \
 		export.c copyenv.c redir.c tokensis.c paths.c \
-		commands.c pipe_re.c
+		commands.c pipe_re.c expand_var.c
 
 OUT = $(SRC:.c=.o)
 
-FLAGS = -g -fsanitize=address#-Wall -Werror -Wextra 
+FLAGS = #-g -fsanitize=address#-Wall -Werror -Wextra 
 RL_L = -lreadline -L ~/.brew/opt/readline/lib
 RL_I = -I ~/.brew/opt/readline/include
 

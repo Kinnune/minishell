@@ -88,7 +88,6 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 				exit(-1);
 			}
 		}
-		printf("command %s\n", get_path(*command->cmd));
 		if (command->next)
 			command = command->next;
 		j++;
