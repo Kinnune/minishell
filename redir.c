@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/03 13:06:48 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:27:35 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,18 @@ int	redirect_out(int append, char *filename)
 
 int	redirect_in(int delimiter, char *filename)
 {
-	struct stat file_stat;
+	struct stat file_stat;//where do you use this //flag
 	char *buffer;
 	int fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
+	{
+		write(STDERR_FILENO, "minishell: ", 11);// otro error 
+		write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));// if the first redirection fail we print messague file is missing one
+		write(STDERR_FILENO, "\n", 1);
 		return (fd);
+	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 		exit (-1);
 	close(fd);

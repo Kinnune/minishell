@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
 /*   Updated: 2023/07/05 11:04:46 by ekinnune         ###   ########.fr       */
@@ -26,6 +26,7 @@
 # include <errno.h>
 # include <sys/stat.h>
 # include <unistd.h>
+# include <string.h>
 
 # define BUFFER 1024
 
@@ -34,12 +35,15 @@ typedef struct	s_command
 	char **cmd;
 	char **redir;
 	char *here_doc;
+	//Add a flag to check if when we try to open a file, this process fails.
+	//int flag;
 	struct s_command *next;
 }	t_command;
 
 typedef struct s_data
 {
 	char **envir;
+	int flag;
 	struct termios orig_termios;
 }			t_data;
 
@@ -59,6 +63,8 @@ void add_string(char *new_string);
 void free_array(char **temp);
 void add_quotes(char* input) ;
 int ft_length_word(char **envp);
+char *find_equal_2(char *str);
+void remove_start(char **str);
 
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid);
 int piepe_function(t_command *list, int i);

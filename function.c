@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 12:18:21 by djames            #+#    #+#             */
-/*   Updated: 2023/05/25 11:36:28 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/03 14:49:09 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void export_start(char **str)
 
 	i=1;
 	j = ft_length_word(str);
-	printf("%d\n", j);
 	if(str[1] == NULL) 
 	{	
 		print_environment(0);
@@ -45,6 +44,21 @@ void export_start(char **str)
 		}
 	}
 }
+
+void remove_start(char **str)
+{
+	int i;
+	int j;
+
+	i=1;
+	j= ft_length_word(str);
+	while(i < j)
+	{
+		remove_string(str[i]);
+		i++;
+	}
+}
+
 void array_free(char **str)
 {
 	int i;
@@ -86,7 +100,7 @@ int check_built(char *promline)
 		}else if(str[0] != NULL && ft_strncmp(str[0], "unset", 6) == 0)
 		{
 			if(str[1] != NULL)
-				remove_string(str[1]);
+				remove_start(str);
 		}else if(str[0] != NULL && ft_strncmp(str[0], "env", 3) == 0)
 			print_environment(1);
 	}
