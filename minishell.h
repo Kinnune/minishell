@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/06 10:08:24 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:55:57 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_data
 {
 	char **envir;
 	int flag;
-	struct termios orig_termios;
+	struct termios term;
 }			t_data;
 
 t_data	g_data;
@@ -65,12 +65,14 @@ void add_quotes(char* input) ;
 int ft_length_word(char **envp);
 char *find_equal_2(char *str);
 void remove_start(char **str);
+void disableRawMode();
 
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid);
 int piepe_function(t_command *list, int i);
 int ft_free(int **fd, int *pid, int i);
 int close_pipe(int **fd, int i);
-void	check_list(t_command *command);
+int	check_list(t_command *command);
+void	handle_signal2(int signal);
 
 
 //------
@@ -106,25 +108,15 @@ int check_tokens(t_token *token);
 char	*here_doc(char *key);
 int	syntax_error(void);
 
-//expand_var.c
-int	valid_varname(char c);
-int	expand_command_args(t_command *command);
-char	*expand_var(char *str);
-char *check_var_logic(char **str);
-int check_dollar(char *str);
-
-
 //paths.c
 void	print_environ(void);
 char	*dot_slash_remove(char *path);
 char	*get_path(char *command);
 
 //redir.c
-int	redirect_out(int append, char *filename);
-int	redirect_in(int delimiter, char *filename);
-int	check_redirect(t_command *command, int new_fd);
-int	check_redirect_out(char **redir);
-int	check_redirect_in(char **redir, char *here_doc);
+int			redirect_out(int append, char *filename);
+int			redirect_in(int delimiter, char *filename);
+int			check_redirect(t_command *command, int new_fd);
 
 //tokensis.c
 t_token	*tokenizer(const char *input);
@@ -154,7 +146,6 @@ t_token	*skip_pipe(t_token *token);
 t_command	*convert_tokens(t_token *token);
 void print_commands(t_command *command);
 void	free_commands(t_command *command);
-void	free_2d(char **array);
 
 //------
 #endif
