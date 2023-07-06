@@ -19,7 +19,7 @@ int ft_free(int **fd, int *pid, int i)
     int j;
 
     j=0;
-    while(j < i)
+    while(j <= i)
     {
         if(fd[j])
             free(fd[j]);

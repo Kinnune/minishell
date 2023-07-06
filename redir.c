@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/05 14:18:40 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/06 11:22:38 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,7 @@ char	*here_doc(char *key)
 	}
 	if (line)
 		free(line);
+	if (!total)
+		return (ft_calloc(1, sizeof(char)));
 	return (total);
 }

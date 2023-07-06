@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/05 14:22:38 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:34:58 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,15 +197,30 @@ void print_commands(t_command *command)
 	print_commands(command->next);
 }
 
+void	free_2d(char **array)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (*(array + i))
+	{
+		free(*(array + i));
+		i++;
+	}
+	free(array);
+}
+
 void	free_commands(t_command *command)
 {
 	if (!command)
 		return ;
 	free_commands(command->next);
 	if (command->redir)
-		free(command->redir);
+		free_2d(command->redir);
 	if (command->cmd)
-		free(command->cmd);
+		free_2d(command->cmd);
 	if (command->here_doc)
 		free(command->here_doc);
 	free(command);

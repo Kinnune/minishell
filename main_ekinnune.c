@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/05 14:10:03 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/06 11:18:36 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,14 @@ int main(int argc, char **argv, char **envp)
 		{
 			command = convert_tokens(token);
 			expand_command_args(command);
-
 			if (!command->next)
 				i = local_builtin(command);
-			//this i stuff is dumb
 			if (i)
 				check_list(command);
-			// free_tokens(token);
+			free_tokens(token);
 			token = NULL;
 		}
-		// free_commands(command);
+		free_commands(command);
 		if(prom_line)
 			free(prom_line);
 	}

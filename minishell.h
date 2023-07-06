@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/05 12:46:58 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:08:24 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ t_token	*skip_pipe(t_token *token);
 t_command	*convert_tokens(t_token *token);
 void print_commands(t_command *command);
 void	free_commands(t_command *command);
+void	free_2d(char **array);
 
 //------
 #endif
