@@ -6,14 +6,17 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/07 14:56:03 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/07 15:17:35 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void disableRawMode() {
-  tcsetattr(STDIN_FILENO, TCSAFLUSH, &(g_data.term));
+//struct termios    term;
+  	tcgetattr(STDIN_FILENO, &(g_data.term));
+	g_data.term.c_lflag |= ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.term));
 }
 
 void enableRawMode() {
