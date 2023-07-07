@@ -19,7 +19,7 @@ int ft_free(int **fd, int *pid, int i)
     int j;
 
     j=0;
-    while(j < i)
+    while(j <= i)
     {
         if(fd[j])
             free(fd[j]);
@@ -51,10 +51,6 @@ int piepe_function(t_command *list, int i)
 	return(j);
 }
 
-
-int	check_redirect_out(char **redir);
-int	check_redirect_in(char **redir, char *here_doc);
-
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
 	int j;
@@ -62,7 +58,6 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 
 	j = 0;
 	madona =258;
-	signal(SIGINT, handle_signal2);
 	while(j <= i)
 	{
 		if(pipe(fd[j]) == -1)
