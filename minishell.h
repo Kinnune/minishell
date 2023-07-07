@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/07 15:00:46 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:03:01 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_data	g_data;
 
 void print_environment(int flag);
 void copy_env(char **envp);
-int check_built(char *promline);
+int check_built(char **str);
 int isvalidnumber(char *str);
 int check_exit(char **str);
 unsigned char do_exit(char **str);

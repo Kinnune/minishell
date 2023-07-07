@@ -58,7 +58,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 	char	*path_ptr;
 
 	j = 0;
-	madona =258;
+	madona =257;
 	while(j <= i)
 	{
 		if(pipe(fd[j]) == -1)
@@ -91,7 +91,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			{
 				
 				printf("yes\n");
-				exit(258);
+				exit(madona);
 
 
 			}	

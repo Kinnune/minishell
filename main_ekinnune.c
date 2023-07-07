@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_ekinnune.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/07 15:17:35 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:41:07 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	local_builtin(t_command *command)
 	}
 	check_redirect_in(command->redir, command->here_doc);
 	check_redirect_out(command->redir);
-	ret_val = check_built(*command->cmd);
+	ret_val = check_built(command->cmd);
 	if (*command->redir)
 	{
 		dup2(std_fd[0], STDIN_FILENO);
@@ -81,10 +81,11 @@ int main(int argc, char **argv, char **envp)
 		i++;
 	while (1)
 	{
-		i = 1;
+		i = 257;
 		command = NULL;
 		token = NULL;
 		
+		enableRawMode();
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_signal);
 		prom_line = readline("MINISHELL$ ");
@@ -98,8 +99,6 @@ int main(int argc, char **argv, char **envp)
 			exit(0);
 		} 
 		ft_history(prom_line);
-
-		
 		if (!count_quotes(prom_line))
 			token = tokenizer(prom_line);
 		if (!check_tokens(token))
@@ -113,9 +112,30 @@ int main(int argc, char **argv, char **envp)
 			free_tokens(token);
 			token = NULL;
 		}
+		if(i != 257)
+		{
+			//printf("nyt on toimi \n");
+			//i = check_built(prom_line);// it is need to check in the pipe 
+			if(i == 256)
+			{
+				printf("exit\n");//writeestandar erro print dprintf not allow 
+				printf("MINISHELL: exit: a: numeric argument required\n");
+				i = 255;
+			}
+			else if(i >= 0 && i <= 255)
+				printf("exit\n");
+			else if(i == 256)
+			{
+				printf("exit\n");
+				printf("MINISHELL: exit: too many arguments\n");
+				i = 255;
+			}
+		}
 		free_commands(command);
 		if(prom_line)
 			free(prom_line);
+		if(i != 257)
+			exit(i);
 	}
 	return (i);
 }
