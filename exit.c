@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/05/11 17:12:19 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:27 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,30 @@ int isvalidnumber(char *str)
 		return (-1);
 	return (2);
 }
+int ft_exit(int i, char *str)
+{
+	if(i != 257)
+		{
+	
+			if(i == 256)
+			{
+				printf("exit\n");//writeestandar erro print dprintf not allow 
+				printf("MINISHELL: exit: %s: numeric argument required\n", str);
+				i = 255;
+			}
+			else if(i >= 0 && i <= 255)
+				printf("exit\n");
+			else if(i == 256)
+			{
+				printf("exit\n");
+				printf("MINISHELL: exit: too many arguments\n");
+				i = 255;
+			}
+		}
+		if(i != 257)
+			exit(i);
+	return (i);
+}
 int check_exit(char **str)
 {
 	int i;
@@ -55,5 +79,6 @@ int check_exit(char **str)
 			i = 256;
 	}else 
 		i =0;
+	ft_exit(i, str[1]);
 	return (i);
 }

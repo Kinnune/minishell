@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 12:18:21 by djames            #+#    #+#             */
-/*   Updated: 2023/07/05 13:38:06 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:32:17 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,48 +72,44 @@ void array_free(char **str)
 	free(str);
 }
 
-int check_built(char *promline)
+int check_built(char **str)// change this
 {
-	char **str;
 	int i;
 
-	str =NULL;
-	i=257;
-	if(promline)
+	i=1;
+	if(str)
 	{	
-		str= ft_split(promline, ' ');
+		
 		if(str[0] != NULL && ft_strncmp(str[0], "exit", 4) == 0)
 		{
 			i =check_exit(str);
+			i=0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "echo", 4) == 0)
 		{
-			printf("reconoce echo\n");
-			i = 0;
+			start_echo(str);
+			i=0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "cd", 2) == 0)
 		{
 			change_directory(str[1]);
-			i = 0;
+			i=0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "pwd", 3) == 0)
 		{
 			ft_pwd();
-			i = 0;
+			i=0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "export", 6) == 0)
 		{
 			export_start(str);
-			i = 0;
+			i=0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "unset", 6) == 0)
 		{
 			if(str[1] != NULL)
 				remove_start(str);
-			i = 0;
+			i=0;
 		}else if(str[0] != NULL && ft_strncmp(str[0], "env", 3) == 0)
 		{
 			print_environment(1);
-			i = 0;
-
+			i=0;
 		}
 	}
-	array_free(str);
 	return (i);
-
 }

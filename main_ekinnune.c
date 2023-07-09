@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_ekinnune.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/07 15:17:35 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:16:50 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	local_builtin(t_command *command)
 	}
 	check_redirect_in(command->redir, command->here_doc);
 	check_redirect_out(command->redir);
-	ret_val = check_built(*command->cmd);
+	ret_val = check_built(command->cmd);
 	if (*command->redir)
 	{
 		dup2(std_fd[0], STDIN_FILENO);
@@ -74,6 +74,7 @@ int main(int argc, char **argv, char **envp)
 	sa.sa_flags =SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGINT);
+	g_data.flag = 1;
 
 	sigaction(SIGINT, &sa, NULL);
 	copy_env(envp);
@@ -85,6 +86,7 @@ int main(int argc, char **argv, char **envp)
 		command = NULL;
 		token = NULL;
 		
+		enableRawMode();
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_signal);
 		prom_line = readline("MINISHELL$ ");
@@ -98,8 +100,6 @@ int main(int argc, char **argv, char **envp)
 			exit(0);
 		} 
 		ft_history(prom_line);
-
-		
 		if (!count_quotes(prom_line))
 			token = tokenizer(prom_line);
 		if (!check_tokens(token))
@@ -108,7 +108,7 @@ int main(int argc, char **argv, char **envp)
 			expand_command_args(command);
 			if (!command->next)
 				i = local_builtin(command);
-			if (i)
+			if(i) 
 				check_list(command);
 			free_tokens(token);
 			token = NULL;
