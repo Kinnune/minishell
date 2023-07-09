@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/07 16:03:01 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/09 16:32:17 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int ft_length_word(char **envp);
 char *find_equal_2(char *str);
 void remove_start(char **str);
 void disableRawMode();
+void start_echo(char **str);
 
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid);
 int piepe_function(t_command *list, int i);

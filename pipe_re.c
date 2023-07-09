@@ -58,7 +58,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 	char	*path_ptr;
 
 	j = 0;
-	madona =257;
+	madona =258;
 	while(j <= i)
 	{
 		if(pipe(fd[j]) == -1)
@@ -83,17 +83,10 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
 			}
 			close_pipe(fd, i);// ask if there is built in
-
-			printf("%s\n", command->cmd[0]);
-			madona = check_built(command->cmd[0]);
-			printf("%d\n", madona);
-			if (madona != 257)
+			madona = check_built(command->cmd);// here
+			if (madona != 1)
 			{
-				
-				printf("yes\n");
 				exit(madona);
-
-
 			}	
 			else if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)
 			{

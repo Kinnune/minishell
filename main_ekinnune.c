@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/07 16:41:07 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/09 16:16:50 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int main(int argc, char **argv, char **envp)
 	sa.sa_flags =SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGINT);
+	g_data.flag = 1;
 
 	sigaction(SIGINT, &sa, NULL);
 	copy_env(envp);
@@ -81,7 +82,7 @@ int main(int argc, char **argv, char **envp)
 		i++;
 	while (1)
 	{
-		i = 257;
+		i = 1;
 		command = NULL;
 		token = NULL;
 		
@@ -107,35 +108,14 @@ int main(int argc, char **argv, char **envp)
 			expand_command_args(command);
 			if (!command->next)
 				i = local_builtin(command);
-			if (i)
+			if(i) 
 				check_list(command);
 			free_tokens(token);
 			token = NULL;
 		}
-		if(i != 257)
-		{
-			//printf("nyt on toimi \n");
-			//i = check_built(prom_line);// it is need to check in the pipe 
-			if(i == 256)
-			{
-				printf("exit\n");//writeestandar erro print dprintf not allow 
-				printf("MINISHELL: exit: a: numeric argument required\n");
-				i = 255;
-			}
-			else if(i >= 0 && i <= 255)
-				printf("exit\n");
-			else if(i == 256)
-			{
-				printf("exit\n");
-				printf("MINISHELL: exit: too many arguments\n");
-				i = 255;
-			}
-		}
 		free_commands(command);
 		if(prom_line)
 			free(prom_line);
-		if(i != 257)
-			exit(i);
 	}
 	return (i);
 }
