@@ -92,7 +92,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			}	
 			else if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)
 			{
-				dprintf(2, "exiting cause of error\n");
+				dprintf(2, "minishell: %s: command not found\n", *command->cmd);
 				exit(-1);
 			}
 		}
