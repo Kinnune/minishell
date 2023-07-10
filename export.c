@@ -6,14 +6,14 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:43:50 by djames            #+#    #+#             */
-/*   Updated: 2023/07/04 16:39:53 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/10 12:10:33 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include<string.h>
 
-//extern char **environ;
+//extern char **environ;if alphanumerico and fix if start with a number or equal
 
 char *find_equal(int flag, char *str)
 {

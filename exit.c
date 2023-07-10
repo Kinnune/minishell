@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/07/09 16:21:27 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/09 19:00:44 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int check_exit(char **str)
 	}else 
 		i =0;
 	ft_exit(i, str[1]);
+	g_data.flag=i;
 	return (i);
 }

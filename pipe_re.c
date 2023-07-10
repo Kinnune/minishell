@@ -110,6 +110,14 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 		j++;
 	}
 	// close_pipe(fd, i);
+	g_data.flag=WEXITSTATUS(madona);
+	if (WIFSIGNALED(madona))
+	{
+		if (WTERMSIG(madona) == SIGQUIT)
+			write(STDERR_FILENO, "Quit: 3\n", 8);
+		else if (WTERMSIG(madona) == SIGSEGV)
+			write(STDERR_FILENO, "Segmentation fault: 11\n", 23);
+	}
 	ft_free(fd, pid, i);
     return (madona);
 }

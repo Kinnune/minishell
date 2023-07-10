@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/09 16:16:50 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/09 19:01:13 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int main(int argc, char **argv, char **envp)
 	sa.sa_flags =SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGINT);
-	g_data.flag = 1;
+	g_data.flag = 0;
 
 	sigaction(SIGINT, &sa, NULL);
 	copy_env(envp);
