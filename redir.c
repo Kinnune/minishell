@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/07 14:57:12 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:05:33 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	check_redirect_in(char **redir, char *here_doc)
 		return (0);
 	if (!ft_strncmp(*redir, "<", ft_strlen(*redir)))
 	{
-		redirect_in(0, *(redir + 1));
+		if (redirect_in(0, *(redir + 1)) < 0)
+			return (INT_MIN);
 		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
 	else if (!ft_strncmp(*redir, "<<", ft_strlen(*redir)))
