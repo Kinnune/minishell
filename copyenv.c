@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:01:51 by djames            #+#    #+#             */
-/*   Updated: 2023/07/03 15:40:19 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:58:51 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,15 @@ void aux_remove()
 	free_array(temp);
 }
 
-void remove_string(const char *target_string)
+int remove_string(char *target_string)
 {
     int i = 0;
     int length = ft_strlen(target_string);
+	char *remo;
 
+	remo=(find_equal_2(target_string));
+	if(remo == NULL)
+		return (-1);
     while (g_data.envir[i] != NULL) {
         if (ft_strncmp(g_data.envir[i], target_string, length) == 0) {
             free(g_data.envir[i]);
@@ -82,6 +86,7 @@ void remove_string(const char *target_string)
         i++;
     }
 	aux_remove();
+	return (0);
 }
 
 void free_array(char **temp) {
@@ -95,7 +100,7 @@ void free_array(char **temp) {
     }
 }
 
-void add_string(char *new_string) 
+int add_string(char *new_string) 
 {
     int lenght;
 	int i;
@@ -104,6 +109,8 @@ void add_string(char *new_string)
 
 	i=0;
 	remo=(find_equal_2(new_string));
+	if(remo == NULL)
+		return (-1);
 	remove_string(remo);
 	free(remo);
 	lenght = ft_length_word(g_data.envir);
@@ -118,4 +125,5 @@ void add_string(char *new_string)
     free_array(g_data.envir);
     copy_env(temp);
 	free_array(temp);
+	return (0);
 }

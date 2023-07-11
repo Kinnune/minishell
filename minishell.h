@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/09 16:32:17 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:59:01 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ unsigned char do_exit(char **str);
 void ft_history(char *prom);
 int ft_pwd();
 int change_directory(char *path);
-void remove_string(const char *target_string);
-void add_string(char *new_string);
+int remove_string(char *target_string);
+int add_string(char *new_string);
 void free_array(char **temp);
 void add_quotes(char* input) ;
 int ft_length_word(char **envp);
