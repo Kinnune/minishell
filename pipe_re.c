@@ -50,7 +50,6 @@ int piepe_function(t_command *list, int i)
 	j=ft_exec(list, i, fd, pid);
 	return(j);
 }
-
 int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
 	int j;
@@ -72,14 +71,17 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			//  reformat these two if statements
-			if (!check_redirect_in(command->redir, command->here_doc) && j != 0)
+			madona = check_redirect_in(command->redir, command->here_doc);
+			if (madona < 0)
+				exit(errno);
+			if (!madona && j != 0)
 			{
-				dprintf(2, "putting stdin\n");
+				// dprintf(2, "putting stdin\n");
 				dup2(fd[j - 1][0], STDIN_FILENO);
 			}
 			if (!check_redirect_out(command->redir) && j <= (i - 1))
 			{
-				dprintf(2, "putting stdout\n");
+				// dprintf(2, "putting stdout\n");
 				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
 			}
 			close_pipe(fd, i);// ask if there is built in
@@ -90,7 +92,7 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			}	
 			else if(execve(get_path(*command->cmd),command->cmd, g_data.envir) != 0)
 			{
-				dprintf(2, "exiting cause of error\n");
+				dprintf(2, "minishell: %s: command not found\n", *command->cmd);
 				exit(-1);
 			}
 		}
