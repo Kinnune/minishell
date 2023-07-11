@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/10 16:05:33 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:17:10 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ int	check_redirect_out(char **redir)
 		return (0);
 	if (!ft_strncmp(*redir, ">", ft_strlen(*redir)))
 	{
-		redirect_out(0, *(redir + 1));
+		if (redirect_out(0, *(redir + 1)) < 0)
+			return (INT_MIN);
 		return (1 + check_redirect_out(redir + 2));
 	}
 	else if (!ft_strncmp(*redir, ">>", ft_strlen(*redir)))
 	{
-		redirect_out(1, *(redir + 1));
+		if (redirect_out(1, *(redir + 1)) < 0)
+			return (INT_MIN);
 		return (1 + check_redirect_out(redir + 2));
 	}
 	else if (!ft_strncmp(*redir, "<", ft_strlen(*redir))
@@ -75,6 +77,11 @@ int	redirect_out(int append, char *filename)
 {
 	int	fd;
 
+	if (!*filename)
+	{
+		write(STDERR_FILENO, "minishell: No such file or directory\n", 37);
+		return (-1);
+	}
 	if (append)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
@@ -114,13 +121,14 @@ char	*here_doc(char *key)
 	temp = NULL;
 	total = NULL;
 	line = readline("<");
+// printf("line  = %s\nkey = %s\nlen = %d\n", line, key, ft_strncmp(line, key, ft_strlen(line) + ft_strlen(key)));
 	while (ft_strncmp(line, key, ft_strlen(line) + ft_strlen(key)))
 	{
 		if (line)
 		{
 			temp = total;
 			total = ft_calloc(ft_strlen(total)
-					+ ft_strlen(line) + 2, sizeof(char));
+					+ ft_strlen(line) + 3, sizeof(char));
 			if (!total)
 				return (NULL);
 			ft_strlcpy(total, temp, ft_strlen(temp) + 1);
@@ -135,6 +143,12 @@ char	*here_doc(char *key)
 	if (line)
 		free(line);
 	if (!total)
-		return (ft_calloc(1, sizeof(char)));
+	{
+		total = ft_calloc(2, sizeof(char));
+		if (!total)
+			return (NULL);
+		// return (ft_calloc(1, sizeof(char)));
+	}
+	*(total + ft_strlen(total)) = '\n';
 	return (total);
 }

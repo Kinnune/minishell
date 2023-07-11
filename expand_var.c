@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 11:03:22 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/10 16:29:45 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:20:37 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	valid_varname(char c)
 {
 	// str[i + j] && (ft_isalnum(str[i + j]) || str[i + j] == '_' || str[i + j] == '\''
-	return (c && (ft_isalnum(c) || c == '_' || c == '\''));
+	return (c && c != '/' && (ft_isalnum(c) || c == '_' || c == '\''));
 }
 
 int check_dollar(char *str)
@@ -29,6 +29,21 @@ int check_dollar(char *str)
 	return (check_dollar(str + 1));
 }
 
+void	remove_quotes(char **str2d)
+{
+	char *str = *str2d;
+	char quote;
+
+	if (!*str && ft_strlen(str) < 2)
+		return ;
+	quote = *str;
+	if (quote != '\'' && quote != '"')
+		return  ;
+	if (*(str + (ft_strlen(str) - 1)) == quote)
+	ft_memmove(str, str + 1, ft_strlen(str + 1));
+	*(str + (ft_strlen(str) - 2)) = '\0';
+}
+
 int	expand_command_args(t_command *command)
 {
 	int i;
@@ -37,12 +52,22 @@ int	expand_command_args(t_command *command)
 	while (*(command->cmd + i))
 	{
 		check_var_logic((command->cmd + i));
+		remove_quotes((command->cmd + i));
 		if (!(command->cmd + i))
 			return (-1);
 		i++;
 	}
-	// check_var_logic(&command->here_doc);
-	// printf("we crash\n");
+	i = 0;
+	while (*(command->redir + i))
+	{
+		if (!i % 2)
+			check_var_logic((command->redir + i));
+			remove_quotes((command->redir + i));
+			if (!(command->redir + i))
+				return (-1);
+		i++;
+	}
+	check_var_logic(&command->here_doc);
 	return (0);
 }
 

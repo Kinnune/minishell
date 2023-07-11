@@ -75,15 +75,12 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			if (madona < 0)
 				exit(errno);
 			if (!madona && j != 0)
-			{
-				// dprintf(2, "putting stdin\n");
 				dup2(fd[j - 1][0], STDIN_FILENO);
-			}
-			if (!check_redirect_out(command->redir) && j <= (i - 1))
-			{
-				// dprintf(2, "putting stdout\n");
+			madona = check_redirect_out(command->redir);
+			if (madona < 0)
+				exit(errno);
+			if (!madona && j <= (i - 1))
 				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
-			}
 			close_pipe(fd, i);// ask if there is built in
 			madona = check_built(command->cmd);// here
 			if (madona != 1)
@@ -115,9 +112,10 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 	g_data.flag=WEXITSTATUS(madona);
 	if (WIFSIGNALED(madona))
 	{
-		if (WTERMSIG(madona) == SIGQUIT)
+		g_data.flag = 128 + WTERMSIG(madona);
+		if (g_data.flag == SIGQUIT)
 			write(STDERR_FILENO, "Quit: 3\n", 8);
-		else if (WTERMSIG(madona) == SIGSEGV)
+		else if (g_data.flag == SIGSEGV)
 			write(STDERR_FILENO, "Segmentation fault: 11\n", 23);
 	}
 	ft_free(fd, pid, i);
