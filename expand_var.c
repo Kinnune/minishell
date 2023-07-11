@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 11:03:22 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/10 16:29:45 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:04:29 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,6 @@ char	*expand_var(char *str)
 	i = 0;
 	while (str[i] && str[i] != '$')
 		i++;
-	if (str[i] && str[i + 1] == '?')
-	{
-		temp = ft_itoa(g_data.flag);
-		expanded = ft_calloc(ft_strlen(str) - 2 + ft_strlen(temp) + 1, sizeof(char));
-		ft_memcpy(expanded, str, i);
-		ft_memcpy(expanded + ft_strlen(expanded), temp, ft_strlen(temp));
-		ft_memcpy(expanded + ft_strlen(expanded), str + i + 2, ft_strlen(str + i + 2));
-		free(temp);
-		return (expanded);
-	}		
 	j = 1;
 	while (valid_varname(*(str + (i + j))))
 		j++;
@@ -75,7 +65,7 @@ char	*expand_var(char *str)
 	if (!temp)
 		return (NULL);
 	str_len = ft_strlen(str) - j;
-	i = 0;	
+	i = 0;
 	while (g_data.envir[i])
 	{
 		j = 0;
@@ -130,8 +120,6 @@ char *check_var_logic(char **str)
 		return (NULL);
 	if (!*str)
 		return (NULL);
-	if (**str == '\'' && *((*str) + ft_strlen(*str) - 1) == '\'')
-		return (*str);
 	if (!check_dollar(*str))
 		return (*str);
 	temp = expand_var(*str);
