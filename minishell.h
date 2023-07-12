@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/12 15:55:36 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:18:48 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int ft_free(int **fd, int *pid, int i);
 int close_pipe(int **fd, int i);
 int	check_list(t_command *command);
 char *check_temp(char *str);
+
 //------
 typedef enum
 {

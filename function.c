@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 12:18:21 by djames            #+#    #+#             */
-/*   Updated: 2023/07/11 18:15:33 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:32:17 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int check_built(char **str)// change this
 
 	i=1;
 	if(str)
-	{
+	{	
+		
 		if(str[0] != NULL && ft_strncmp(str[0], "exit", 4) == 0)
 		{
 			i =check_exit(str);
@@ -110,7 +111,5 @@ int check_built(char **str)// change this
 			i=0;
 		}
 	}
-	if (i == 0)
-		g_data.flag = 0;
 	return (i);
 }
