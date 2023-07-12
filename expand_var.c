@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 11:03:22 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/11 19:20:37 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:07:43 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	expand_command_args(t_command *command)
 	i = 0;
 	while (*(command->redir + i))
 	{
-		if (!i % 2)
 			check_var_logic((command->redir + i));
 			remove_quotes((command->redir + i));
 			if (!(command->redir + i))
@@ -111,7 +110,10 @@ char	*expand_var(char *str)
 		i++;
 	}
 	if (!g_data.envir[i])
+	{
+		free(temp);
 		return (ft_calloc(1, 1));//we failed to find var return null or empty string??
+	}
 	j = 0;
 	while (g_data.envir[i][j] && g_data.envir[i][j] != '=')
 		j++;
