@@ -80,8 +80,8 @@ int ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 			if (madona < 0)
 				exit(errno);
 			if (!madona && j <= (i - 1))
-				dup2(fd[j][1], STDOUT_FILENO); // saber redireccion
-			close_pipe(fd, i);// ask if there is built in
+				dup2(fd[j][1], STDOUT_FILENO);
+			close_pipe(fd, j);// ask if there is built in
 			madona = check_built(command->cmd);// here
 			if (madona != 1)
 			{

@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/09 22:15:13 by ekinnune          #+#    #+#             */
-/*   Updated: 2022/11/08 15:20:14 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:32:46 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
+	if (!s1 || !s2)
+		return (0);
 	if (n == 0)
 		return (0);
 	i = 0;
