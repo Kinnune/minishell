@@ -6,7 +6,7 @@
 #    By: djames <djames@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/07/10 11:53:40 by djames           ###   ########.fr        #
+#    Updated: 2023/07/11 15:06:31 by djames           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = main_ekinnune.c \
 
 OUT = $(SRC:.c=.o)
 
-FLAGS = -g -fsanitize=address#-Wall -Werror -Wextra 
+FLAGS = #-g -fsanitize=address#-Wall -Werror -Wextra 
 RL_L = -lreadline -L ~/.brew/opt/readline/lib
 RL_I = -I ~/.brew/opt/readline/include
 

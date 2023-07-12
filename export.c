@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:43:50 by djames            #+#    #+#             */
-/*   Updated: 2023/07/11 13:06:47 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/12 11:47:24 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ char *check_temp(char *str)
     char *ret;
 
     i=0;
-    ret =str;
+    ret = str;
     if(ft_isdigit(str[i]) || !(ft_isalnum(str[i])))
     {
         printf("MINISHELL : %s: not avalid identefier\n", str);
+        // if(str)
+        //     free(str);
         return (NULL);
     }
     i++;
@@ -52,6 +54,8 @@ char *check_temp(char *str)
         if(!(ft_isalnum(str[i])))
         {   
             printf("MINISHELL : %s: not avalid identefier\n", str);
+            // if(str)
+            //     free(str);
             ret = NULL;
             break;
         }
@@ -72,7 +76,10 @@ char *find_equal_2(char *str)
     while(str[i] != '\0' && equal == 0)
     {
         if(str[i] == '=')
+        {
             equal=1;
+            //return (temp);
+        }
         //temp[i] = str[i];
         i++;
     }
@@ -86,7 +93,7 @@ char *find_equal_2(char *str)
         temp[equal] = str[equal];
         equal++;
     }
-    temp[i] = '\0';
+    temp[equal] = '\0';
     temp = check_temp(temp);
     return (temp);
 }
