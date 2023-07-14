@@ -6,14 +6,14 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:13:24 by djames            #+#    #+#             */
-/*   Updated: 2023/05/10 18:17:08 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/14 12:05:40 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_history(char *prom)
+void	ft_history(char *prom)
 {
-	if(prom != NULL && (ft_strlen(prom) > 0))
+	if (prom != NULL && (ft_strlen(prom) > 0))
 		add_history(prom);
 }

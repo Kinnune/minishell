@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokensis.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:37:57 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/05 14:22:05 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:35:39 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_token	*tokenizer(const char *input)
 	return (head);
 }
 
-t_token	*make_token(const char *pos, size_t size, e_type type)
+t_token	*make_token(const char *pos, size_t size, enum e_type type)
 {
 	t_token	*token;
 
@@ -142,9 +142,9 @@ t_token	*is_progname(const char *input)
 
 t_token	*is_redir(const char *input)
 {
-	t_token	*token;
-	size_t	size;
-	e_type	token_type;
+	t_token		*token;
+	size_t		size;
+	enum e_type	token_type;
 
 	size = 0;
 	if (*input == '<')
@@ -195,8 +195,8 @@ t_token	*is_var(const char *input)
 
 t_token	*is_quote(const char *input)
 {
-	e_type	token_type;
-	size_t	size;
+	enum e_type	token_type;
+	size_t		size;
 
 	if (*input == '\'')
 		token_type = SQUOTE;
