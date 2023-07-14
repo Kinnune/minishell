@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/12 15:55:36 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:57:55 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,21 +102,29 @@ typedef struct s_token
 	struct s_token *prev;
 }	t_token;
 
-int count_quotes(char *input);
 int check_tokens(t_token *token);
 char	*here_doc(char *key);
+
+//misc.c
+int count_quotes(char *input);
 int	syntax_error(void);
 
-
 //expand_var.c
-int	valid_varname(char c);
-int	expand_command_args(t_command *command);
 char	*expand_var(char *str);
-char *check_var_logic(char **str);
-int check_dollar(char *str);
+int	expand_command_args(t_command *command);
+void	remove_quotes(char **str2d);
+char *set_varname(char *str);
+void	get_varname(char **name);
+
+//expand_var_helpers.c
+void	handle_exvar(int *i, char **buff);
+void	handle_varname(int *i, char **buff, char *str);
+void	handle_blank(int *i, char **buff, char *str);
+char	*check_var_logic(char **str);
+int	valid_varname(char c);
+
 
 //paths.c
-void	print_environ(void);
 char	*dot_slash_remove(char *path);
 char	*get_path(char *command);
 
@@ -127,20 +135,22 @@ int	check_redirect(t_command *command, int new_fd);
 int	check_redirect_out(char **redir);
 int	check_redirect_in(char **redir, char *here_doc);
 
+//token_is.c
+t_token	*is_pipe(const char *input);
+t_token	*is_var(const char *input);
+t_token	*is_quote(const char *input);
+t_token	*is_progname(const char *input);
+t_token	*is_redir(const char *input);
+
 //tokensis.c
 t_token	*tokenizer(const char *input);
-t_token	*is_progname(const char *input);
-t_token	*is_quote(const char *input);
-t_token	*is_var(const char *input);
-t_token	*is_pipe(const char *input);
-t_token	*is_redir(const char *input);
 void	append_token(t_token **list, t_token *node);
 t_token	*handle_name_symbol(const char *input);
 t_token *handle_special_symbol(const char *input);
 int	special_symbol(char input);
 t_token	*make_token(const char *pos, size_t size, e_type type);
 void print_tokens(t_token *token);
-void	free_tokens(t_token *list);
+void	*free_tokens(t_token *list);
 
 //commands.c
 int token_type_command(t_token *token);

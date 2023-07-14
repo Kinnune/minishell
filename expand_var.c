@@ -6,47 +6,40 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 11:03:22 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/12 16:07:43 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:00:22 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	valid_varname(char c)
+char	*expand_var(char *str)
 {
-	// str[i + j] && (ft_isalnum(str[i + j]) || str[i + j] == '_' || str[i + j] == '\''
-	return (c && c != '/' && (ft_isalnum(c) || c == '_' || c == '\''));
-}
+	char	*buff;
+	char	*temp;
+	char	*temp_buff;
+	int		i;
 
-int check_dollar(char *str)
-{
 	if (!str)
-		return (-1);
-	if (!*str)
-		return (0);
-	if (*str == '$')
-		return (1);
-	return (check_dollar(str + 1));
-}
-
-void	remove_quotes(char **str2d)
-{
-	char *str = *str2d;
-	char quote;
-
-	if (!*str && ft_strlen(str) < 2)
-		return ;
-	quote = *str;
-	if (quote != '\'' && quote != '"')
-		return  ;
-	if (*(str + (ft_strlen(str) - 1)) == quote)
-	ft_memmove(str, str + 1, ft_strlen(str + 1));
-	*(str + (ft_strlen(str) - 2)) = '\0';
+		return (str);
+	buff = ft_calloc(1, 1);
+	if (!buff)
+		exit(-1);
+	i = 0;
+	while (*(str + i))
+	{
+		if (*(str + i) == '$' && *(str + i + 1) == '?')
+			handle_exvar(&i, &buff);
+		else if (*(str + i) == '$')
+			handle_varname(&i, &buff, str);
+		else
+			handle_blank(&i, &buff, str);
+	}
+	return (buff);
 }
 
 int	expand_command_args(t_command *command)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (*(command->cmd + i))
@@ -60,109 +53,73 @@ int	expand_command_args(t_command *command)
 	i = 0;
 	while (*(command->redir + i))
 	{
-			check_var_logic((command->redir + i));
-			remove_quotes((command->redir + i));
-			if (!(command->redir + i))
-				return (-1);
+		check_var_logic((command->redir + i));
+		remove_quotes((command->redir + i));
+		if (!(command->redir + i))
+			return (-1);
 		i++;
 	}
 	check_var_logic(&command->here_doc);
 	return (0);
 }
 
-char	*expand_var(char *str)
+void	remove_quotes(char **str2d)
 {
-	char *expanded;
-	char *temp;
-	int	var_len;
-	int	str_len;
+	char	*str;
+	char	quote;
+
+	str = *str2d;
+	if (!*str && ft_strlen(str) < 2)
+		return ;
+	quote = *str;
+	if (quote != '\'' && quote != '"')
+		return ;
+	if (*(str + (ft_strlen(str) - 1)) == quote)
+		ft_memmove(str, str + 1, ft_strlen(str + 1));
+	*(str + (ft_strlen(str) - 2)) = '\0';
+}
+
+char	*set_varname(char *str)
+{
+	int		i;
+	char	*temp;
+
+	i = 0;
+	str++;
+	while (valid_varname(*(str + i)))
+		i++;
+	if (!i)
+		temp = ft_strdup("$");
+	else
+		temp = ft_strndup(str, i);
+	if (!temp)
+		exit (-1);
+	return (temp);
+}
+
+void	get_varname(char **name)
+{
 	int	i;
 	int	j;
 
 	i = 0;
-	while (str[i] && str[i] != '$')
-		i++;
-	if (str[i] && str[i + 1] == '?')
-	{
-		temp = ft_itoa(g_data.flag);
-		expanded = ft_calloc(ft_strlen(str) - 2 + ft_strlen(temp) + 1, sizeof(char));
-		ft_memcpy(expanded, str, i);
-		ft_memcpy(expanded + ft_strlen(expanded), temp, ft_strlen(temp));
-		ft_memcpy(expanded + ft_strlen(expanded), str + i + 2, ft_strlen(str + i + 2));
-		free(temp);
-		return (expanded);
-	}		
-	j = 1;
-	while (valid_varname(*(str + (i + j))))
-		j++;
-	temp = ft_strndup(str + i, j);
-	if (!temp)
-		return (NULL);
-	str_len = ft_strlen(str) - j;
-	i = 0;	
 	while (g_data.envir[i])
 	{
 		j = 0;
 		while (g_data.envir[i][j] != '=' && g_data.envir[i][j])
 			j++;
-		if (!ft_strncmp(g_data.envir[i], temp + 1, j))
+		if (!ft_strncmp(g_data.envir[i], *name, ft_strlen(*name)))
 			break ;
 		i++;
 	}
+	j++;
+	free(*name);
 	if (!g_data.envir[i])
-	{
-		free(temp);
-		return (ft_calloc(1, 1));//we failed to find var return null or empty string??
-	}
-	j = 0;
-	while (g_data.envir[i][j] && g_data.envir[i][j] != '=')
-		j++;
-	if (g_data.envir[i][j])
-		j++;
+		*name = NULL;
 	else
-		return (NULL);
-	var_len = ft_strlen(&g_data.envir[i][j]);
-	if (*str == '$' && ft_strlen(str) == var_len)
-		return (ft_strdup(&g_data.envir[i][j]));
-	if (g_data.envir[i][j] == '\'')
-		var_len -= 2;
-	expanded = ft_calloc(1, str_len + var_len + 1);
-	if (!expanded)
-		return (NULL);//handle error
-	free (temp);
-	temp = &g_data.envir[i][j];
-	i = 0;
-	j = 0;
-	while (str[i] != '$' && str[i])
 	{
-		expanded[i] = str[i];
-		i++;
+		*name = ft_strdup(&g_data.envir[i][j]);
+		if (!name)
+			exit(-1);
 	}
-	str += i;
-	if (*str)
-		str++;
-	while (valid_varname(*str))
-		str++;
-	ft_memcpy(expanded + i, temp + j, ft_strlen(temp + j));
-	j = i + ft_strlen(temp + j);
-	ft_memcpy(expanded + j, str, ft_strlen(str));
-	return (expanded);
-}
-
-char *check_var_logic(char **str)
-{
-	char *temp;
-
-	if (!str)
-		return (NULL);
-	if (!*str)
-		return (NULL);
-	if (**str == '\'' && *((*str) + ft_strlen(*str) - 1) == '\'')
-		return (*str);
-	if (!check_dollar(*str))
-		return (*str);
-	temp = expand_var(*str);
-	free (*str);
-	*str = temp;
-	return (check_var_logic(str));
 }
