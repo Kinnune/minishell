@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 15:44:58 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:22:52 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int						ft_length_word(char **envp);
 char					*find_equal_2(char *str);
 void					remove_start(char **str);
 void					disable_rawmode(void);
+void					enable_rawmode(void);
 void					start_echo(char **str);
 int						check_built2(char **str);
 void					export_start(char **str);

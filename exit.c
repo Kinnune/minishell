@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 12:32:54 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:53:52 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 int	is_valid2(char *str, long long trans, int i)
 {
+	int	flag;
+
+	flag = 0;
 	while (((str[i]) >= '0') && ((str[i]) <= '9'))
 	{
+		if (trans < 0)
+			flag = 1;
 		trans = trans * 10 + (str[i] - '0');
 		i++;
 	}
-	if (str[i] != '\0' || (trans < 0))
+	printf("%lld\n", trans);
+	if (str[i] != '\0' || (trans < 0) || flag == 1)
 		return (-1);
 	return (2);
 }
@@ -39,8 +45,6 @@ int	isvalidnumber(char *str)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		if (str[i] == '-')
-			sign = -1;
 		i++;
 		if (str[i] == '\0')
 			return (-1);
