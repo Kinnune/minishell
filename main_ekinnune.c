@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/14 15:47:10 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 15:22:43 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	handle_signal(int signal)
 		ioctl(STDOUT_FILENO, TIOCSTI, "\n");
 		rl_on_new_line();
 	}
+	g_data.flag2 = 1;
 }
 
 int	local_builtin(t_command *command)

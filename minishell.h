@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 16:22:52 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 14:33:37 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 	char				**envir;
 	int					flag;
 	int					flag1;
+	int					flag2;
 	struct termios		term;
 }						t_data;
 
@@ -75,6 +76,7 @@ int						ft_execaux(int i, pid_t *pid, int **fd);
 void					ft_exec35(t_command *command, int i, int **fd, int j);
 void					ft_start3(char *prom_line);
 void					handle_signal(int signal);
+void					print_errorexport(char *str);
 
 int						ft_exec(t_command *command, int i, int **fd,
 							pid_t *pid);

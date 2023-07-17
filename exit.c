@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/07/17 13:07:54 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 14:37:34 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_errornume(char *str)
 {
 	int	i;
 
-	i = ft_strlen(str) - 1;
+	i = ft_strlen(str);
 	write(STDERR_FILENO, "exit\n", 6);
 	write(STDERR_FILENO, "MINISHELL: exit: ", 17);
 	write(STDERR_FILENO, str, i);

@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:38:41 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 15:47:10 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 14:40:19 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,19 @@ int	start_main(t_token *token, t_command *command)
 	i = 1;
 	command = NULL;
 	token = NULL;
+	g_data.flag2 = 0;
 	enable_rawmode();
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_signal);
 	prom_line = readline("MINISHELL$ ");
-	ft_start3(prom_line);
-	if (!count_quotes(prom_line))
-		token = tokenizer(prom_line);
-	i = check_built3(token, command);
-	free_commands(command);
+	if (g_data.flag2 != 1)
+	{
+		ft_start3(prom_line);
+		if (!count_quotes(prom_line))
+			token = tokenizer(prom_line);
+		i = check_built3(token, command);
+		free_commands(command);
+	}
 	if (prom_line)
 		free(prom_line);
 	return (i);
