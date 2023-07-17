@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 16:53:52 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 14:37:34 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	is_valid2(char *str, long long trans, int i)
 		trans = trans * 10 + (str[i] - '0');
 		i++;
 	}
-	printf("%lld\n", trans);
 	if (str[i] != '\0' || (trans < 0) || flag == 1)
 		return (-1);
 	return (2);
@@ -52,22 +51,32 @@ int	isvalidnumber(char *str)
 	return (is_valid2(str, trans, i));
 }
 
+void	print_errornume(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str);
+	write(STDERR_FILENO, "exit\n", 6);
+	write(STDERR_FILENO, "MINISHELL: exit: ", 17);
+	write(STDERR_FILENO, str, i);
+	write(STDERR_FILENO, ": numeric argument required\n", 28);
+}
+
 int	ft_exit(int i, char *str)
 {
 	if (i != 257)
 	{
 		if (i == 256)
 		{
-			printf("exit\n");
-			printf("MINISHELL: exit: %s: numeric argument required\n", str);
+			print_errornume(str);
 			i = 255;
 		}
 		else if (i >= 0 && i <= 255)
-			printf("exit\n");
+			write(STDERR_FILENO, "exit\n", 6);
 		else if (i == 256)
 		{
-			printf("exit\n");
-			printf("MINISHELL: exit: too many arguments\n");
+			write(STDERR_FILENO, "exit\n", 6);
+			write(STDERR_FILENO, "MINISHELL: exit: too many arguments\n", 36);
 			i = 255;
 		}
 	}

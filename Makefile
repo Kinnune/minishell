@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+         #
+#    By: djames <djames@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/07/17 15:46:55 by ekinnune         ###   ########.fr        #
+#    Updated: 2023/07/17 16:38:59 by djames           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC = main_ekinnune.c \
 
 OUT = $(SRC:.c=.o)
 
-FLAGS = #-g -fsanitize=address#-Wall -Werror -Wextra 
+FLAGS = -Wall -Werror -Wextra 
 RL_L = -lreadline -L ~/.brew/opt/readline/lib
 RL_I = -I ~/.brew/opt/readline/include
 

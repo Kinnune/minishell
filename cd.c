@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:44:35 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 12:49:16 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 16:43:59 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	change_directory(char *path)
 {
 	char	*result;
 	char	buf[BUFFER];
-	char	**path1;
 
 	if (path == NULL)
 		path = find_word2("HOME");

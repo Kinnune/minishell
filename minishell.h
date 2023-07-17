@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/17 15:57:57 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:45:13 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_data
 	int					flag;
 	int					flag1;
 	int					flag2;
+	int					flag3;
 	struct termios		term;
 }						t_data;
 
@@ -117,6 +118,7 @@ char			*here_doc(char *key);
 //misc.c
 int				count_quotes(char *input);
 int				syntax_error(void);
+void			print_errorexport(char *str);
 
 //expand_var.c
 char			*expand_var(char *str);
@@ -143,7 +145,7 @@ int				is_last_in(char **redir);
 
 //redir.c
 int				redirect_out(int append, char *filename);
-int				redirect_in(int delimiter, char *filename);
+int				redirect_in(char *filename);
 int				check_redirect(t_command *command, int new_fd);
 int				check_redirect_out(char **redir);
 int				check_redirect_in(char **redir, char *here_doc);

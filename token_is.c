@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_is.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:09:30 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 13:31:07 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:46:56 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ t_token	*is_progname(const char *input)
 
 t_token	*is_redir(const char *input)
 {
-	t_token	*token;
-
 	if (*input == '<')
 	{
 		if (*(input + 1) == '<')

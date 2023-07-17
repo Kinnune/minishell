@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 15:53:34 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:00:14 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_redirect_in(char **redir, char *here_doc)
 		return (0);
 	if (!ft_strncmp(*redir, "<", ft_strlen(*redir)))
 	{
-		if (redirect_in(0, *(redir + 1)) < 0)
+		if (redirect_in(*(redir + 1)) < 0)
 			return (INT_MIN);
 		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
@@ -28,16 +28,14 @@ int	check_redirect_in(char **redir, char *here_doc)
 			pipe_doc(here_doc);
 		return (1 + check_redirect_in(redir + 2, here_doc));
 	}
-	else if (!ft_strncmp(*redir, ">", ft_strlen(*redir))
-		|| !ft_strncmp(*redir, ">>", ft_strlen(*redir)))
+	else if (!ft_strncmp(*redir, ">", ft_strlen(*redir)) || !ft_strncmp(*redir,
+			">>", ft_strlen(*redir)))
 		return (check_redirect_in(redir + 2, here_doc));
 	return (0);
 }
 
 int	check_redirect_out(char **redir)
 {
-	int	fd;
-
 	if (!*redir)
 		return (0);
 	if (!ft_strncmp(*redir, ">", ft_strlen(*redir)))
@@ -52,8 +50,8 @@ int	check_redirect_out(char **redir)
 			return (INT_MIN);
 		return (1 + check_redirect_out(redir + 2));
 	}
-	else if (!ft_strncmp(*redir, "<", ft_strlen(*redir))
-		|| !ft_strncmp(*redir, "<<", ft_strlen(*redir)))
+	else if (!ft_strncmp(*redir, "<", ft_strlen(*redir)) || !ft_strncmp(*redir,
+			"<<", ft_strlen(*redir)))
 		return (check_redirect_out(redir + 2));
 	return (0);
 }
@@ -72,15 +70,14 @@ int	redirect_out(int append, char *filename)
 	else
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (dup2(fd, STDOUT_FILENO) < 0)
-		exit (-1);
+		exit(-1);
 	close(fd);
 	return (0);
 }
 
-int	redirect_in(int delimiter, char *filename)
+int	redirect_in(char *filename)
 {
-	char	*buffer;
-	int		fd;
+	int	fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
@@ -91,7 +88,7 @@ int	redirect_in(int delimiter, char *filename)
 		return (fd);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
-		exit (-1);
+		exit(-1);
 	close(fd);
 	return (0);
 }
@@ -105,7 +102,9 @@ char	*here_doc(char *key)
 	temp = NULL;
 	total = NULL;
 	line = readline("<");
-	while (ft_strncmp(line, key, ft_strlen(line) + ft_strlen(key)))
+	signal(SIGINT, handle_signal);
+	while (ft_strncmp(line, key, ft_strlen(line) + ft_strlen(key))
+		&& g_data.flag2 != 1)
 	{
 		if (line)
 			total = handle_doc_line(line, total);

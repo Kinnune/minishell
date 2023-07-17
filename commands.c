@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:29:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/14 12:23:29 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:46:13 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ t_command	*convert_tokens(t_token *token)
 
 int	set_redir(t_command *command, t_token *token)
 {
-	t_token	*temp;
-
+	g_data.flag2 = 0;
 	if (!token)
 		return (0);
 	if (token_type_redir(token))

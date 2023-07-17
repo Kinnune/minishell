@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 11:03:22 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/14 17:00:22 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:46:45 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 char	*expand_var(char *str)
 {
 	char	*buff;
-	char	*temp;
-	char	*temp_buff;
 	int		i;
 
 	if (!str)

@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:59:39 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 14:53:44 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 16:49:26 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
 	int		j;
 	int		madona;
-	char	*path_ptr;
 
 	j = 0;
 	madona = 258;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_ekinnune.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 14:40:08 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:49:26 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,19 @@ int	main(int argc, char **argv, char **envp)
 	i = argc;
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	g_data.flag = 0;
-	g_data.flag1 = 0;
-	sigaction(SIGINT, &sa, NULL);
-	copy_env(envp);
-	while (1)
-		i = start_main(token, command);
-	return (i);
+	token = NULL;
+	command = NULL;
+	if (argv[1] == NULL)
+	{
+		sigemptyset(&sa.sa_mask);
+		sigaddset(&sa.sa_mask, SIGINT);
+		g_data.flag = 0;
+		g_data.flag1 = 0;
+		sigaction(SIGINT, &sa, NULL);
+		copy_env(envp);
+		while (1)
+			i = start_main(token, command);
+		return (i);
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/12 17:02:14 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:45:51 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ char	*match_command(char *command, char *path_ptr)
 char	*get_path(char *command)
 {
 	char	*path_ptr;
-	char	*temp_ptr;
 
 	if (!command)
 		return (NULL);
