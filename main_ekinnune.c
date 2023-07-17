@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_ekinnune.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/14 15:47:10 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/17 14:40:08 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	handle_signal(int signal)
 		ioctl(STDOUT_FILENO, TIOCSTI, "\n");
 		rl_on_new_line();
 	}
+	g_data.flag2 = 1;
 }
 
 int	local_builtin(t_command *command)
@@ -73,6 +74,7 @@ int	check_built3(t_token *token, t_command *command)
 		if (i)
 			check_list(command);
 		free_tokens(token);
+		free_commands(command);
 		token = NULL;
 	}
 	return (i);
@@ -80,10 +82,10 @@ int	check_built3(t_token *token, t_command *command)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token				*token;
-	t_command			*command;
 	int					i;
 	struct sigaction	sa;
+	t_command			*command;
+	t_token				*token;
 
 	i = argc;
 	sa.sa_flags = SA_SIGINFO;

@@ -1,38 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/09 22:15:13 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 15:36:53 by ekinnune         ###   ########.fr       */
+/*   Created: 2023/07/17 13:32:40 by ekinnune          #+#    #+#             */
+/*   Updated: 2023/07/17 13:32:49 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	free_2d(char **array)
 {
-	size_t			i;
-	unsigned char	*str1;
-	unsigned char	*str2;
+	int	i;
 
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	if (!s1 || !s2)
-		return (0);
-	if (n == 0)
-		return (0);
+	if (!array)
+		return ;
 	i = 0;
-	while (i < n && *(str1 + i))
+	while (*(array + i))
 	{
-		if (*(str1 + i) - *(str2 + i) == 0)
-			i++;
-		else
-			break ;
-		if (i == n)
-			return (0);
+		free(*(array + i));
+		i++;
 	}
-	return (*(str1 + i) - *(str2 + i));
+	free(array);
+}
+
+void	free_commands(t_command *command)
+{
+	if (!command)
+		return ;
+	free_commands(command->next);
+	if (command->redir)
+		free_2d(command->redir);
+	if (command->cmd)
+		free_2d(command->cmd);
+	if (command->here_doc)
+		free(command->here_doc);
+	free(command);
 }

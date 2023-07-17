@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.42.fr>              +#+  +:+       +#+         #
+#    By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/07/14 15:40:31 by djames           ###   ########.fr        #
+#    Updated: 2023/07/17 15:46:55 by ekinnune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME = minishell
 SRC = main_ekinnune.c \
 		function.c exit.c ft_history.c pwd.c cd.c \
 		export.c copyenv.c redir.c tokensis.c paths.c \
-		commands.c pipe_re.c expand_var.c echo.c function2.c pipe.c start.c
+		commands.c pipe_re.c expand_var.c echo.c function2.c pipe.c \
+		start.c misc.c token_is.c command_helpers.c \
+		expand_var_helpers.c free.c redir_helpers.c
 
 OUT = $(SRC:.c=.o)
 
