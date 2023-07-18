@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 12:48:45 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 13:36:01 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 15:37:43 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	ft_execaux(int i, pid_t *pid, int **fd)
 			write(STDERR_FILENO, "Quit: 3\n", 8);
 		else if (WTERMSIG(madona) == SIGSEGV)
 			write(STDERR_FILENO, "Segmentation fault: 11\n", 23);
+		g_data.flag = (128 + WTERMSIG(madona));
 	}
 	ft_free(fd, pid, i);
 	return (madona);

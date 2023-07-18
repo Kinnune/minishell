@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 14:05:40 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:07:26 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int						piepe_function(t_command *list, int i);
 int						ft_free(int **fd, int *pid, int i);
 int						close_pipe(int **fd, int i);
 int						check_list(t_command *command);
-char					*check_temp(char *str);
+char					*check_temp(char *str, int flag, char *str2);
 void					match_aux(int path_i, char **path_split, char *path_ptr,
 							char *command);
 
@@ -123,7 +123,8 @@ int						is_builtin(char *command);
 //misc.c
 int						count_quotes(char *input);
 int						syntax_error(void);
-void					print_errorexport(char *str);
+void					print_errorexport(char *str, int flag);
+void					start_env(char **str);
 
 //expand_var.c
 char					*expand_var(char *str);

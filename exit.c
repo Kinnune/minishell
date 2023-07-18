@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:11:01 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 16:54:41 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_exit(int i, char *str, int flag)
 		if (flag == 0)
 			write(STDERR_FILENO, "exit\n", 6);
 		write(STDERR_FILENO, "MINISHELL: exit: too many arguments\n", 36);
-		i = 255;
+		i = 1;
 	}
 	return (i);
 }
@@ -103,7 +103,7 @@ int	check_exit(char **str, int flag)
 	}
 	else
 		i = 0;
-	ft_exit(i, str[1], flag);
+	i = ft_exit(i, str[1], flag);
 	g_data.flag = i;
 	return (i);
 }

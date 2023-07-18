@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:01:51 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:27:51 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 16:50:36 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	aux_remove(void)
 	i = 0;
 	lenght = ft_length_word(g_data.envir);
 	temp = malloc((lenght + 1) * (sizeof(char *)));
+	if (!temp)
+		return ;
 	temp[lenght] = NULL;
 	while (i < (lenght))
 	{
@@ -75,6 +77,8 @@ void	ft_copy(int j)
 	i = 0;
 	lenght = ft_length_word(g_data.envir);
 	temp = malloc((lenght) * (sizeof(char *)));
+	if (!temp)
+		return ;
 	temp[lenght - 1] = NULL;
 	while (i < (lenght - 1))
 	{
@@ -99,7 +103,7 @@ int	remove_string(char *target_string)
 
 	i = 0;
 	length = ft_strlen(target_string);
-	remo = (check_temp(target_string));
+	remo = (check_temp(target_string, 1, target_string));
 	if (remo == NULL)
 		return (-1);
 	while (g_data.envir[i] != NULL)

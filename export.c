@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:43:50 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:27:30 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 16:49:12 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*find_equal(int flag, char *str)
 	return (str);
 }
 
-char	*check_temp(char *str)
+char	*check_temp(char *str, int flag, char *str2)
 {
 	int		i;
 	char	*ret;
@@ -43,7 +43,7 @@ char	*check_temp(char *str)
 	{
 		if (str[i] != '_')
 		{
-			print_errorexport(str);
+			print_errorexport(str2, flag);
 			return (NULL);
 		}
 	}
@@ -52,7 +52,7 @@ char	*check_temp(char *str)
 	{
 		if (!(ft_isalnum(str[i]) || (str[i] == '_')))
 		{
-			print_errorexport(str);
+			print_errorexport(str2, flag);
 			return (NULL);
 		}
 		i++;
@@ -85,7 +85,7 @@ char	*find_equal_2(char *str)
 		equal++;
 	}
 	temp[equal] = '\0';
-	temp = check_temp(temp);
+	temp = check_temp(temp, 0, str);
 	return (temp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:49:16 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:27:03 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 17:05:02 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check_built2(char **str)
 	}
 	else if (str[0] != NULL && ft_strncmp(str[0], "env\0", 4) == 0)
 	{
-		print_environment(1);
+		start_env(str);
 		i = 0;
 	}
 	return (i);
