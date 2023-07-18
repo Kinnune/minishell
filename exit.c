@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:15:36 by djames            #+#    #+#             */
-/*   Updated: 2023/07/17 14:37:34 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 12:11:01 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,41 +51,43 @@ int	isvalidnumber(char *str)
 	return (is_valid2(str, trans, i));
 }
 
-void	print_errornume(char *str)
+void	print_errornume(char *str, int flag)
 {
 	int	i;
 
 	i = ft_strlen(str);
-	write(STDERR_FILENO, "exit\n", 6);
+	if (flag == 0)
+		write(STDERR_FILENO, "exit\n", 6);
 	write(STDERR_FILENO, "MINISHELL: exit: ", 17);
 	write(STDERR_FILENO, str, i);
 	write(STDERR_FILENO, ": numeric argument required\n", 28);
 }
 
-int	ft_exit(int i, char *str)
+int	ft_exit(int i, char *str, int flag)
 {
 	if (i != 257)
 	{
 		if (i == 256)
 		{
-			print_errornume(str);
+			print_errornume(str, flag);
 			i = 255;
 		}
-		else if (i >= 0 && i <= 255)
+		else if (i >= 0 && i <= 255 && flag == 0)
 			write(STDERR_FILENO, "exit\n", 6);
-		else if (i == 256)
-		{
-			write(STDERR_FILENO, "exit\n", 6);
-			write(STDERR_FILENO, "MINISHELL: exit: too many arguments\n", 36);
-			i = 255;
-		}
 	}
 	if (i != 257)
 		exit(i);
+	else
+	{
+		if (flag == 0)
+			write(STDERR_FILENO, "exit\n", 6);
+		write(STDERR_FILENO, "MINISHELL: exit: too many arguments\n", 36);
+		i = 255;
+	}
 	return (i);
 }
 
-int	check_exit(char **str)
+int	check_exit(char **str, int flag)
 {
 	int	i;
 
@@ -101,7 +103,7 @@ int	check_exit(char **str)
 	}
 	else
 		i = 0;
-	ft_exit(i, str[1]);
+	ft_exit(i, str[1], flag);
 	g_data.flag = i;
 	return (i);
 }

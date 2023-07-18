@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:43:50 by djames            #+#    #+#             */
-/*   Updated: 2023/07/17 14:33:57 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 12:27:30 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ char	*check_temp(char *str)
 
 	i = 0;
 	ret = str;
-	if (ft_isdigit(str[i]) || !(ft_isalnum(str[i])))
+	if ((ft_isdigit(str[i]) || !(ft_isalpha(str[i]))))
 	{
-		print_errorexport(str);
-		return (NULL);
+		if (str[i] != '_')
+		{
+			print_errorexport(str);
+			return (NULL);
+		}
 	}
 	i++;
 	while (str[i] != '\0')
 	{
-		if (!(ft_isalnum(str[i])))
+		if (!(ft_isalnum(str[i]) || (str[i] == '_')))
 		{
 			print_errorexport(str);
 			return (NULL);

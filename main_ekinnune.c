@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_ekinnune.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 16:49:26 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 12:26:57 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	local_builtin(t_command *command)
 	}
 	check_redirect_in(command->redir, command->here_doc);
 	check_redirect_out(command->redir);
-	ret_val = check_built(command->cmd);
+	ret_val = check_built(command->cmd, 0);
 	if (*command->redir)
 	{
 		dup2(std_fd[0], STDIN_FILENO);

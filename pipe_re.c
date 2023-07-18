@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_re.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:59:39 by djames            #+#    #+#             */
-/*   Updated: 2023/07/17 16:49:26 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 12:31:37 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,17 @@ int	piepe_function(t_command *list, int i)
 	int		j;
 
 	fd = malloc(sizeof(int *) * (i + 1));
+	if (!fd)
+		return (0);
 	pid = malloc(sizeof(pid_t) * (i + 1));
+	if (!pid)
+		return (0);
 	j = 0;
 	while (j <= i)
 	{
 		fd[j] = malloc(sizeof(int) * 2);
+		if (!fd[j])
+			return (0);
 		j++;
 	}
 	j = ft_exec(list, i, fd, pid);
@@ -62,8 +68,8 @@ int	piepe_function(t_command *list, int i)
 
 int	ft_exec(t_command *command, int i, int **fd, pid_t *pid)
 {
-	int		j;
-	int		madona;
+	int	j;
+	int	madona;
 
 	j = 0;
 	madona = 258;

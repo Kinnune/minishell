@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 12:18:21 by djames            #+#    #+#             */
-/*   Updated: 2023/07/14 12:18:39 by djames           ###   ########.fr       */
+/*   Created: 2023/07/18 12:03:38 by djames            #+#    #+#             */
+/*   Updated: 2023/07/18 12:27:08 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	array_free(char **str)
 	free(str);
 }
 
-int	check_built(char **str)
+int	check_built(char **str, int flag)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ int	check_built(char **str)
 	{
 		if (str[0] != NULL && ft_strncmp(str[0], "exit\0", 5) == 0)
 		{
-			i = check_exit(str);
+			i = check_exit(str, flag);
 			i = 0;
 		}
 		else if (str[0] != NULL && ft_strncmp(str[0], "echo\0", 5) == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:31:00 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 16:45:51 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 12:26:30 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	count_dot_dot(char *str)
 
 char	*dot_slash_remove(char *path)
 {
-	int			i;
-	char		*test;
+	int		i;
+	char	*test;
 
 	test = ft_strnstr(path, "/./", ft_strlen(path));
 	if (test && !ft_strnstr(test, "/../", 4))
@@ -73,24 +73,26 @@ char	*match_command(char *command, char *path_ptr)
 	int		path_i;
 
 	path_i = get_path_index();
-	path_split = ft_split((*(g_data.envir + path_i) + 5), ':');
-	if (!path_split)
-		return (NULL);
-	path_i = 0;
-	while (*(path_split + path_i))
+	path_split = NULL;
+	if (path_i < ft_length_word(g_data.envir))
 	{
-		ft_memcpy(path_ptr, *(path_split + path_i),
-			ft_strlen(*(path_split + path_i)) + 1);
-		ft_memcpy(path_ptr + ft_strlen(path_ptr), "/", 2);
-		ft_memcpy(path_ptr + ft_strlen(path_ptr),
-			command, ft_strlen(command) + 1);
-		if (!access(path_ptr, F_OK))
-			break ;
-		path_i++;
+		path_split = ft_split((*(g_data.envir + path_i) + 5), ':');
+		if (!path_split)
+			return (NULL);
+		path_i = 0;
+		while (*(path_split + path_i))
+		{
+			match_aux(path_i, path_split, path_ptr, command);
+			if (!access(path_ptr, F_OK))
+				break ;
+			path_i++;
+		}
+		if (!*(path_split + path_i))
+			path_ptr = NULL;
+		free_2d(path_split);
 	}
-	if (!*(path_split + path_i))
+	else
 		path_ptr = NULL;
-	free_2d(path_split);
 	return (dot_slash_remove(path_ptr));
 }
 

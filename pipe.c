@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 12:48:45 by djames            #+#    #+#             */
-/*   Updated: 2023/07/17 15:58:08 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:26:16 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_exec35(t_command *command, int i, int **fd, int j)
 	if (!madona && j <= (i - 1))
 		dup2(fd[j][1], STDOUT_FILENO);
 	close_pipe(fd, j);
-	madona = check_built(command->cmd);
+	madona = check_built(command->cmd, 1);
 	if (madona != 1)
 		exit(madona);
 	else if (execve(get_path(*command->cmd), command->cmd, g_data.envir) != 0)
