@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 12:48:45 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:26:16 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 13:36:01 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	ft_execaux(int i, pid_t *pid, int **fd)
 
 void	command_not_found(char *command)
 {
-	write (2, "minishell: ", 11);
+	write (2, "MINISHELL: ", 11);
 	write (2, command, ft_strlen(command));
 	write (2, ": command not found\n", 20);
-	exit(-1);
+	exit(127);
 }
 
 void	ft_exec35(t_command *command, int i, int **fd, int j)

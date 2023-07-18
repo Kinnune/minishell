@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 12:03:38 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:27:08 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 13:48:44 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ int	check_built(char **str, int flag)
 	if (str)
 	{
 		if (str[0] != NULL && ft_strncmp(str[0], "exit\0", 5) == 0)
-		{
 			i = check_exit(str, flag);
-			i = 0;
-		}
 		else if (str[0] != NULL && ft_strncmp(str[0], "echo\0", 5) == 0)
 		{
 			start_echo(str);
@@ -97,5 +94,7 @@ int	check_built(char **str, int flag)
 		else
 			i = check_built2(str);
 	}
+	if (i == 0)
+		g_data.flag = 0;
 	return (i);
 }

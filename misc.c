@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:08:01 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/17 13:32:30 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:38:49 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	syntax_error(void)
 {
-	write(2, "minishell: syntax error\n", 24);
+	write(2, "MINISHELL: syntax error\n", 24);
 	return (-1);
 }
 
