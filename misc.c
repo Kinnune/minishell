@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:08:01 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/18 13:38:49 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 13:57:07 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,13 @@ t_token	*handle_special_symbol(const char *input)
 		return (is_redir(input));
 	else if (*input == '|')
 		return (is_pipe(input));
-	else if (*input == '$')
-		return (is_var(input));
 	else
 		return (NULL);
 }
 
 int	special_symbol(char input)
 {
-	return (input == '>' | input == '<' | input == '$'
+	return (input == '>' | input == '<'
 		| input == '|' | input == '\'' | input == '"'
 		| input == ' ' | input == '\t' | input == '\0');
 }

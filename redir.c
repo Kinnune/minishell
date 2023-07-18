@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:51:25 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/18 12:25:52 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 13:51:16 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	redirect_in(char *filename)
 	if (fd < 0)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, filename, ft_strlen(filename));		
+		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
 		write(STDERR_FILENO, "\n", 1);
 		return (fd);

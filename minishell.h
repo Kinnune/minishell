@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:23:25 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 14:05:40 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void					match_aux(int path_i, char **path_split, char *path_ptr,
 
 int						check_tokens(t_token *token);
 char					*here_doc(char *key);
+
+int						is_builtin(char *command);
 
 //misc.c
 int						count_quotes(char *input);

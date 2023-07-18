@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_ekinnune.c                                    :+:      :+:    :+:   */
+/*   main_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 11:10:42 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/18 12:26:57 by djames           ###   ########.fr       */
+/*   Created: 2023/07/18 14:08:08 by ekinnune          #+#    #+#             */
+/*   Updated: 2023/07/18 14:08:17 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ int	local_builtin(t_command *command)
 		std_fd[1] = dup(STDOUT_FILENO);
 		std_fd[2] = dup(STDERR_FILENO);
 	}
-	check_redirect_in(command->redir, command->here_doc);
-	check_redirect_out(command->redir);
-	ret_val = check_built(command->cmd, 0);
+	ret_val = check_redirect_in(command->redir, command->here_doc);
+	if (ret_val >= 0)
+		ret_val = check_redirect_out(command->redir);
+	if (ret_val >= 0)
+		ret_val = check_built(command->cmd, 0);
 	if (*command->redir)
 	{
 		dup2(std_fd[0], STDIN_FILENO);
@@ -69,9 +71,9 @@ int	check_built3(t_token *token, t_command *command)
 	{
 		command = convert_tokens(token);
 		expand_command_args(command);
-		if (!command->next)
+		if (!command->next && is_builtin(*command->cmd))
 			i = local_builtin(command);
-		if (i)
+		else
 			check_list(command);
 		free_tokens(token);
 		free_commands(command);
@@ -80,29 +82,15 @@ int	check_built3(t_token *token, t_command *command)
 	return (i);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	is_builtin(char *command)
 {
-	int					i;
-	struct sigaction	sa;
-	t_command			*command;
-	t_token				*token;
-
-	i = argc;
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_flags = SA_RESTART;
-	token = NULL;
-	command = NULL;
-	if (argv[1] == NULL)
-	{
-		sigemptyset(&sa.sa_mask);
-		sigaddset(&sa.sa_mask, SIGINT);
-		g_data.flag = 0;
-		g_data.flag1 = 0;
-		sigaction(SIGINT, &sa, NULL);
-		copy_env(envp);
-		while (1)
-			i = start_main(token, command);
-		return (i);
-	}
-	return (0);
+	if (!command)
+		return (0);
+	return (!ft_strncmp(command, "echo", 5)
+		|| !ft_strncmp(command, "cd", 3)
+		|| !ft_strncmp(command, "pwd", 4)
+		|| !ft_strncmp(command, "export", 7)
+		|| !ft_strncmp(command, "unset", 6)
+		|| !ft_strncmp(command, "env", 4)
+		|| !ft_strncmp(command, "exit", 5));
 }

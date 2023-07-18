@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_is.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:09:30 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/18 12:25:36 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 13:38:16 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token	*is_progname(const char *input)
 	size_t	size;
 
 	size = 0;
-	while (!special_symbol(*(input + size)))
+	while (!special_symbol(*(input + size)) || *(input + size) == '$')
 		size++;
 	return (make_token(input, size, NAME));
 }

@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.hive.fi>            +#+  +:+       +#+         #
+#    By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 10:58:46 by djames            #+#    #+#              #
-#    Updated: 2023/07/18 12:26:51 by djames           ###   ########.fr        #
+#    Updated: 2023/07/18 14:08:42 by ekinnune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main_ekinnune.c \
+SRC = main.c main_helpers.c \
 		function.c exit.c ft_history.c pwd.c cd.c \
 		export.c copyenv.c redir.c tokensis.c paths.c \
 		commands.c pipe_re.c expand_var.c echo.c function2.c pipe.c \
