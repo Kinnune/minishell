@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_history.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:13:24 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 12:27:15 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/18 14:23:54 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_errorexport(char *str)
 	i = ft_strlen(str);
 	write(STDERR_FILENO, "MINISHELL: exit: ", 17);
 	write(STDERR_FILENO, str, i);
-	write(STDERR_FILENO, ": not avalid identefier\n", 24);
+	write(STDERR_FILENO, ": not a valid identifier\n", 24);
 }
 
 void	match_aux(int path_i, char **path_split, char *path_ptr, char *command)

@@ -6,7 +6,7 @@
 /*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:54:31 by ekinnune          #+#    #+#             */
-/*   Updated: 2023/07/14 16:59:20 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:25:03 by ekinnune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ char	*check_var_logic(char **str)
 
 int	valid_varname(char c)
 {
-	return (c && (ft_isalnum(c) || c == '_' || c == '\''));
+	return (c && (ft_isalnum(c) || c == '_'));
 }
