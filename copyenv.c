@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:01:51 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 16:50:36 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/19 13:42:28 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void	copy_env(char **envp)
 	i = 0;
 	lenght = ft_length_word(envp);
 	g_data.envir = malloc((lenght + 1) * (sizeof(char *)));
+	if (!g_data.envir)
+		exit(-1);
 	g_data.envir[lenght] = NULL;
 	while (i < lenght)
 	{
 		g_data.envir[i] = ft_strdup(envp[i]);
+		if (!g_data.envir[i])
+			exit(-1);
 		i++;
 	}
 	if (g_data.flag1 == 0)
@@ -78,16 +82,16 @@ void	ft_copy(int j)
 	lenght = ft_length_word(g_data.envir);
 	temp = malloc((lenght) * (sizeof(char *)));
 	if (!temp)
-		return ;
+		exit(-1);
 	temp[lenght - 1] = NULL;
 	while (i < (lenght - 1))
 	{
 		if (i >= j)
-		{
 			temp[i] = ft_strdup(g_data.envir[i + 1]);
-		}
 		else
 			temp[i] = ft_strdup(g_data.envir[i]);
+		if (!temp[i])
+			exit(-1);
 		i++;
 	}
 	free_array(g_data.envir);

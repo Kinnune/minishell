@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:43:50 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 16:49:12 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:24:08 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,19 @@ char	*check_temp(char *str, int flag, char *str2)
 	{
 		if (str[i] != '_')
 		{
-			print_errorexport(str2, flag);
-			return (NULL);
+			if (flag == 0)
+				free(str);
+			return (print_errorexport(str2, flag));
 		}
 	}
-	i++;
-	while (str[i] != '\0')
+	while (str[++i] != '\0')
 	{
 		if (!(ft_isalnum(str[i]) || (str[i] == '_')))
 		{
-			print_errorexport(str2, flag);
-			return (NULL);
+			if (flag == 0)
+				free(str);
+			return (print_errorexport(str2, flag));
 		}
-		i++;
 	}
 	return (ret);
 }
@@ -68,7 +68,6 @@ char	*find_equal_2(char *str)
 
 	i = 0;
 	equal = 0;
-	temp = NULL;
 	while (str[i] != '\0' && equal == 0)
 	{
 		if (str[i] == '=')
@@ -76,6 +75,8 @@ char	*find_equal_2(char *str)
 		i++;
 	}
 	temp = malloc((i + 1) * (sizeof(char)));
+	if (!temp)
+		exit(-1);
 	if (equal == 1)
 		i--;
 	equal = 0;
@@ -85,8 +86,7 @@ char	*find_equal_2(char *str)
 		equal++;
 	}
 	temp[equal] = '\0';
-	temp = check_temp(temp, 0, str);
-	return (temp);
+	return (temp = check_temp(temp, 0, str));
 }
 
 void	print_environment(int flag)

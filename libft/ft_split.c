@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekinnune <ekinnune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 20:10:33 by ekinnune          #+#    #+#             */
-/*   Updated: 2022/11/16 14:04:08 by ekinnune         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:47:32 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@ static char	**ft_check_edges(const char *s, char c)
 	if (!*s)
 	{
 		splitted = (char **)malloc(sizeof(char *));
-		*splitted = NULL;
+		if (splitted)
+			*splitted = NULL;
 		return (splitted);
 	}
 	if (!c)
 	{
 		splitted = (char **)malloc(sizeof(char *) * 2);
-		*splitted = ft_strdup(s);
-		*(splitted + 1) = NULL;
+		if (splitted)
+		{
+			*splitted = ft_strdup(s);
+			if (*splitted)
+				*(splitted + 1) = NULL;
+		}
 		return (splitted);
 	}
 	return (NULL);

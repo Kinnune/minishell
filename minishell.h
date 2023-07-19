@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:10:29 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 17:07:26 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:26:15 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,13 @@ int						check_tokens(t_token *token);
 char					*here_doc(char *key);
 
 int						is_builtin(char *command);
+void					aux_add25(int *i, int lenght, char **temp);
+void					ft_free_copy(char **temp, char *remo);
 
 //misc.c
 int						count_quotes(char *input);
 int						syntax_error(void);
-void					print_errorexport(char *str, int flag);
+void					*print_errorexport(char *str, int flag);
 void					start_env(char **str);
 
 //expand_var.c

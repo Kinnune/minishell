@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:49:16 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 17:05:02 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:10:33 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ void	add_string(char *new_string)
 	if (remo == NULL)
 		return ;
 	if ((find_word(new_string)) == 1)
+	{
+		free(remo);
 		return ;
+	}
 	remove_string(remo);
-	free(remo);
 	lenght = ft_length_word(g_data.envir);
 	temp = malloc((lenght + 2) * (sizeof(char *)));
+	if (!temp)
+		exit(-1);
 	temp[lenght + 1] = NULL;
-	while (i < (lenght))
-	{
-		temp[i] = ft_strdup(g_data.envir[i]);
-		i++;
-	}
+	aux_add25(&i, lenght, temp);
 	temp[i] = ft_strdup(new_string);
-	free_array(g_data.envir);
-	copy_env(temp);
-	free_array(temp);
+	if (!temp[i])
+		exit(-1);
+	ft_free_copy(temp, remo);
 }
 
 int	find_25(char *str)

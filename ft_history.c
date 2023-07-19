@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:13:24 by djames            #+#    #+#             */
-/*   Updated: 2023/07/18 17:08:50 by djames           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:23:49 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_history(char *prom)
 		add_history(prom);
 }
 
-void	print_errorexport(char *str, int flag)
+void	*print_errorexport(char *str, int flag)
 {
 	int	i;
 
@@ -29,6 +29,7 @@ void	print_errorexport(char *str, int flag)
 		write(STDERR_FILENO, "MINISHELL: unset: `", 19);
 	write(STDERR_FILENO, str, i);
 	write(STDERR_FILENO, "': not a valid identifier\n", 26);
+	return (NULL);
 }
 
 void	match_aux(int path_i, char **path_split, char *path_ptr, char *command)
@@ -53,5 +54,16 @@ void	start_env(char **str)
 		write(STDERR_FILENO, "env: ", 5);
 		write(STDERR_FILENO, str[1], i);
 		write(STDERR_FILENO, ": No such file or directory\n", 28);
+	}
+}
+
+void	aux_add25(int *i, int lenght, char **temp)
+{
+	while (*i < (lenght))
+	{
+		temp[*i] = ft_strdup(g_data.envir[*i]);
+		if (!temp[*i])
+			exit(-1);
+		(*i)++;
 	}
 }
